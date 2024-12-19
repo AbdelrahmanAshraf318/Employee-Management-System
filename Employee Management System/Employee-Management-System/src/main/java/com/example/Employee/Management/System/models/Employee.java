@@ -34,8 +34,7 @@ public class Employee extends User
     @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
     private String phoneNumber;
 
-    // Other fields, getters, and setters
-
+        
     public String getPhoneNumber() {
         return phoneNumber;
     }
