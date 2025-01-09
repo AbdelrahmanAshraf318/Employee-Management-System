@@ -1,10 +1,8 @@
 package com.example.Employee.Management.System.models;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
@@ -34,7 +32,28 @@ public class Employee extends User
     @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
     private String phoneNumber;
 
-        
+
+    //@NotNull(message = "Status is mandatory")
+    @Enumerated(EnumType.STRING) // Store the enum value as a string in the database
+    @Column(nullable = false)
+    private EmployeeStatus status;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public EmployeeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmployeeStatus status) {
+        this.status = status;
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }

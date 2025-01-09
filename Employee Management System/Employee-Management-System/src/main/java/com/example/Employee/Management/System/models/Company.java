@@ -24,10 +24,10 @@ public class Company
     @Column(unique = true, nullable = false) // Enforce uniqueness
     private String company_name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "int default 0")
     private int numberOfDepartments;
 
-    @Column(nullable = false)
+    @Column(nullable = true, columnDefinition = "int default 0")
     private int numberOfEmployees;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true) // One-to-Many relationship

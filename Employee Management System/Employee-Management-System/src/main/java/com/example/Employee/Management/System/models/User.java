@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User
+public abstract class User
 {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -65,9 +65,9 @@ public class User
         return role;
     }
 
-    public void setId(UUID id) {
+    /*public void setId(UUID id) {
         this.id = id;
-    }
+    }*/
 
     public void setEmail(String email) {
         this.email = email;
