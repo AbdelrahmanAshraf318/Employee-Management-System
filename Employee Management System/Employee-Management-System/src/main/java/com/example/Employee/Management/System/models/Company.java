@@ -1,13 +1,11 @@
 package com.example.Employee.Management.System.models;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +29,9 @@ public class Company
 
     @Column(nullable = false)
     private int numberOfEmployees;
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true) // One-to-Many relationship
+    private List<Department> departments;
 
     public UUID getId() {
         return id;
@@ -62,5 +63,13 @@ public class Company
 
     public void setNumberOfEmployees(int numberOfEmployees) {
         this.numberOfEmployees = numberOfEmployees;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public List<Department> getDepartments() {
+        return departments;
     }
 }
