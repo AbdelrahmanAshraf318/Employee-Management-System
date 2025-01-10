@@ -17,7 +17,7 @@ public class Employee extends User
     private LocalDate hiredOn;
 
     @Column
-    private Integer daysEmployed;
+    private int daysEmployed;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
@@ -78,11 +78,11 @@ public class Employee extends User
         this.hiredOn = hiredOn;
     }
 
-    public Integer getDaysEmployed() {
+    public int getDaysEmployed() {
         return daysEmployed;
     }
 
-    public void setDaysEmployed(Integer daysEmployed) {
+    public void setDaysEmployed(int daysEmployed) {
         this.daysEmployed = daysEmployed;
     }
 
