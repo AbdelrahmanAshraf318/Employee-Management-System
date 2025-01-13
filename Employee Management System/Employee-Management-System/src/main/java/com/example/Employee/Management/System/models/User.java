@@ -1,4 +1,5 @@
 package com.example.Employee.Management.System.models;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +13,8 @@ import java.util.UUID;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User
+@Table(name = "USER_TABLE")
+public class User
 {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -20,27 +22,28 @@ public abstract class User
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(columnDefinition = "BINARY(16)", unique = true, nullable = false)
+    @Column(name = "user_id", columnDefinition = "RAW(16)", unique = true, nullable = false)
     private UUID id;
 
     @NotBlank(message = "Email is mandatory")  // Validates non-null and non-empty
     @Email(message = "Email should be valid")  // Validates email format
-    @Column(unique = true, nullable = false)   // Ensures uniqueness and non-null in DB
+    @Column(name = "email", unique = true, nullable = false)   // Ensures uniqueness and non-null in DB
     private String email;
 
 
     @NotBlank(message = "Username is mandatory")
     @Size(min = 6, message = "Username must be at least 6 characters long")
-    @Column(nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Column(name = "password")
     private String password;
 
     @NotNull(message = "Role is mandatory")
     @Enumerated(EnumType.STRING) // Store the enum value as a string in the database
-    @Column(nullable = false)
+    @Column(name = "role", nullable = false)
     private Role role;
 
 

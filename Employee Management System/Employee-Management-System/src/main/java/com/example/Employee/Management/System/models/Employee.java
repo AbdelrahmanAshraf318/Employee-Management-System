@@ -2,21 +2,25 @@ package com.example.Employee.Management.System.models;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
+@Table(name = "EMPLOYEE")
 public class Employee extends User
 {
-    @Column(nullable = false)
+
+
+    @Column(name = "designation", nullable = false)
     private String designation; // Position or title
 
-    @Column
+    @Column(name = "hired_On")
     private LocalDate hiredOn;
 
-    @Column
+    @Column(name = "days_Employed")
     private int daysEmployed;
 
     @ManyToOne
@@ -27,16 +31,21 @@ public class Employee extends User
     @JoinColumn(name = "department_id", nullable = false) // Many employees belong to one department
     private Department department;
 
+    @Column(name = "address")
     private String  address;
 
+
     @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
+    @Column(name = "phone_Number")
     private String phoneNumber;
 
 
     //@NotNull(message = "Status is mandatory")
     @Enumerated(EnumType.STRING) // Store the enum value as a string in the database
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private EmployeeStatus status;
+
+
 
     public String getAddress() {
         return address;

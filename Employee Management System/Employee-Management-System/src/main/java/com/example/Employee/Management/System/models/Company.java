@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "COMPANY")
 public class Company
 {
     @Id
@@ -17,17 +18,17 @@ public class Company
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(columnDefinition = "BINARY(16)", unique = true, nullable = false)
+    @Column(name = "company_id", columnDefinition = "RAW(16)", unique = true, nullable = false)
     private UUID id;
 
     @NotBlank(message = "Company name is mandatory")
-    @Column(unique = true, nullable = false) // Enforce uniqueness
+    @Column(name = "company_name", unique = true, nullable = false) // Enforce uniqueness
     private String company_name;
 
-    @Column(nullable = false, columnDefinition = "int default 0")
+    @Column(name = "numberOfDepartments", nullable = false, columnDefinition = "int default 0")
     private int numberOfDepartments;
 
-    @Column(nullable = true, columnDefinition = "int default 0")
+    @Column(name = "numberOfEmployees", nullable = true, columnDefinition = "int default 0")
     private int numberOfEmployees;
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true) // One-to-Many relationship

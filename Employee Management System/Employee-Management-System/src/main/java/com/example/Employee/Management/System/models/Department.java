@@ -10,8 +10,9 @@ import java.util.UUID;
 
 @Entity
 @Table(
+        name = "DEPARTMENT",
         uniqueConstraints = @UniqueConstraint(
-                columnNames = {"name", "company_id"} // Enforce unique department names within a company
+                columnNames = {"dept_name", "company_id"} // Enforce unique department names within a company
         )
 )
 public class Department
@@ -22,7 +23,7 @@ public class Department
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(columnDefinition = "BINARY(16)", unique = true, nullable = false)
+    @Column(name = "department_id", columnDefinition = "RAW(16)", unique = true, nullable = false)
     private UUID id;
 
 
@@ -31,10 +32,10 @@ public class Department
     private Company company; // Reference to Company entity
 
     @NotBlank(message = "Department name is mandatory")
-    @Column(unique = true, nullable = false) // Enforce uniqueness
+    @Column(name = "dept_name", unique = true, nullable = false) // Enforce uniqueness
     private String dept_name;
 
-    @Column(nullable = false)
+    @Column(name = "numberOfEmployees", nullable = false)
     private int numberOfEmployees;
 
 
