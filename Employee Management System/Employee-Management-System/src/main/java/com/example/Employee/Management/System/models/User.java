@@ -31,6 +31,7 @@ public class User
     private String email;
 
 
+
     @NotBlank(message = "Username is mandatory")
     @Size(min = 6, message = "Username must be at least 6 characters long")
     @Column(name = "username", nullable = false, unique = true)
@@ -68,9 +69,7 @@ public class User
         return role;
     }
 
-    /*public void setId(UUID id) {
-        this.id = id;
-    }*/
+
 
     public void setEmail(String email) {
         this.email = email;

@@ -2,4 +2,4 @@
 -- desc EMPLOYEE;
 -- desc COMPANY;
 -- desc DEPARTMENT;
-desc DEPARTMENT;
+desc EMPLOYEE;

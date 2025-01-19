@@ -12,6 +12,10 @@ import java.util.UUID;
 @Table(name = "EMPLOYEE")
 public class Employee extends User
 {
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 4, message = "Name must be at least 4 characters long")
+    @Column(name = "name", nullable = false, unique = false)
+    private String name;
 
 
     @Column(name = "designation", nullable = false)
@@ -34,6 +38,15 @@ public class Employee extends User
     @Column(name = "address")
     private String  address;
 
+    @Column(name = "working_hours", nullable = false)
+    private double workingHours;
+
+    @Column(name = "hourly_rate", nullable = false)
+    private double hourly_rate;
+
+    @Column(name = "salary")
+    private double salary;
+
 
     @Pattern(regexp = "^[0-9]{11}$", message = "Phone number must be 11 digits")
     @Column(name = "phone_Number")
@@ -46,6 +59,33 @@ public class Employee extends User
     private EmployeeStatus status;
 
 
+    public double getWorkingHours() {
+        return workingHours;
+    }
+
+    public void setWorkingHours(double workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public double getHourly_rate() {
+        return hourly_rate;
+    }
+
+    public void setHourly_rate(double hourly_rate) {
+        this.hourly_rate = hourly_rate;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getAddress() {
         return address;
