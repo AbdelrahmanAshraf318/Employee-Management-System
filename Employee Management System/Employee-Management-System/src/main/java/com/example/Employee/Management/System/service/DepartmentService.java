@@ -14,8 +14,8 @@ import java.util.UUID;
 @Service
 public class DepartmentService
 {
-    private DepartmentRepo departmentRepo;
-    private CompanyRepo companyRepo;
+    private final DepartmentRepo departmentRepo;
+    private final CompanyRepo companyRepo;
 
     public DepartmentService(DepartmentRepo departmentRepo, CompanyRepo companyRepo)
     {
