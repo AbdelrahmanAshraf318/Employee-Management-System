@@ -25,12 +25,6 @@ public class User
     @Column(name = "user_id", columnDefinition = "RAW(16)", unique = true, nullable = false)
     private UUID id;
 
-    @NotBlank(message = "Email is mandatory")  // Validates non-null and non-empty
-    @Email(message = "Email should be valid")  // Validates email format
-    @Column(name = "email", unique = true, nullable = false)   // Ensures uniqueness and non-null in DB
-    private String email;
-
-
 
     @NotBlank(message = "Username is mandatory")
     @Size(min = 6, message = "Username must be at least 6 characters long")
@@ -53,9 +47,6 @@ public class User
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
     public String getUsername() {
         return username;
@@ -69,11 +60,6 @@ public class User
         return role;
     }
 
-
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public void setUsername(String username) {
         this.username = username;

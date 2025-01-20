@@ -98,6 +98,7 @@ public class EmployeeService
         exist_employee.setStatus(update_employee.getStatus());
         exist_employee.setHourly_rate(update_employee.getHourly_rate());
         exist_employee.setWorkingHours(update_employee.getWorkingHours());
+        exist_employee.setEmail(update_employee.getEmail());
 
         return employeeRepo.save(exist_employee);
     }

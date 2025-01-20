@@ -2,4 +2,4 @@
 -- desc EMPLOYEE;
 -- desc COMPANY;
 -- desc DEPARTMENT;
-desc EMPLOYEE;
+desc USER_TABLE;
