@@ -6,6 +6,7 @@ import com.example.Employee.Management.System.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -25,6 +26,11 @@ public class UserService
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
+
+    public List<User> getAllUsers()
+    {
+        return userRepo.findAll();
+    }
 
     public Optional<User> findByUsername(String username)
     {
