@@ -1,6 +1,7 @@
 package com.example.Employee.Management.System.security;
 
 
+import com.example.Employee.Management.System.models.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import static com.example.Employee.Management.System.models.Role.*;
 
 @Configuration
 
@@ -41,11 +44,12 @@ public class ApplicationSecurityConfig
     @Bean
     public UserDetailsService userDetailsService()
     {
-        UserDetails user = User.withUsername("testUser")
-                .password(passwordEncoder().encode("testPassword"))
-                .roles("USER")
+                UserDetails admin = User.withUsername("ashraf")
+                .password(passwordEncoder().encode("ashraf25102000A"))
+                .roles(ADMIN.name())
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        return new InMemoryUserDetailsManager(admin);
     }
 
     @Bean
