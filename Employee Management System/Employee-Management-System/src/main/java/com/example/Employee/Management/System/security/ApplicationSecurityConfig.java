@@ -25,6 +25,8 @@ public class ApplicationSecurityConfig
     {
         http
                 .authorizeHttpRequests( auth -> auth
+                        .requestMatchers("/", "index.html", "/default") // Allow access for everyone even if he/she does not login
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> {})
