@@ -20,12 +20,14 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 public class ApplicationSecurityConfig
 {
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         http
                 .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/", "index.html", "/default") // Allow access for everyone even if he/she does not login
+                        .requestMatchers("/", "/default", "/index.html") // Allow access for everyone even if he/she does not login
                         .permitAll()
                         .anyRequest().authenticated()
                 )
