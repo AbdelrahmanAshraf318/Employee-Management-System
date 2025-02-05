@@ -7,8 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController
 {
+    @GetMapping("/")
+    public String home() {
+        return "index"; // Renders the index.html template
+    }
+
     @GetMapping("/login")
     public String login() {
-        return "login"; // This will look for login.html in src/main/resources/templates
+        return "login"; // This should be your login page
+    }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup"; // This should be your signup page
     }
 }
