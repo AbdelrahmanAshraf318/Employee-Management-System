@@ -1,69 +1,55 @@
 package com.example.Employee.Management.System.security;
 
 
-import com.example.Employee.Management.System.models.Role;
+import com.example.Employee.Management.System.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import static com.example.Employee.Management.System.models.Role.*;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
+public class ApplicationSecurityConfig {
 
-public class ApplicationSecurityConfig
-{
+    private final UserService userService;
 
+    public ApplicationSecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-    {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests( auth -> auth
-                        .requestMatchers("/", "/default", "/index.html") // Allow access for everyone even if he/she does not login
-                        .permitAll()
-
-                        .requestMatchers("/admin/**")
-                        .hasRole(ADMIN.name())
-
-                        .requestMatchers("/manager/**")
-                        .hasRole(MANAGER.name())
-
-                        .requestMatchers("/employee/**")
-                        .hasAnyRole(EMPLOYEE.name(), MANAGER.name(), ADMIN.name())
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/",  "/index.html").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/employee/**").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN")
                         .anyRequest().authenticated()
                 )
-                .httpBasic(httpBasic -> {})
-                .csrf(csrf -> csrf.disable());
+                .httpBasic(httpBasic -> {}); // Enable HTTP Basic Authentication
+
         return http.build();
     }
 
-
-    // Add test user for authorization
     @Bean
-    public UserDetailsService userDetailsService()
-    {
-                UserDetails admin = User.withUsername("ashraf")
-                .password(passwordEncoder().encode("ashraf25102000A"))
-                .roles(ADMIN.name())
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
+    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return new ProviderManager(authProvider);
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
