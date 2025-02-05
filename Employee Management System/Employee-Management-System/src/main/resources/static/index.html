@@ -1,6 +1,6 @@
 <!-- Main Page -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,11 @@
     <body>
 
         <h1>Welcome to Employee Management System!</h1>
+
+        <p>
+            <a th:href="@{/login}">Login</a> |
+            <a th:href="@{/signup}">Sign Up</a>
+        </p>
 
     </body>
 </html>

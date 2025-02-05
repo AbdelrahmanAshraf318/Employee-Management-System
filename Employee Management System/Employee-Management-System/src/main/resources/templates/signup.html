@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign Up</title>
+</head>
+<body>
+<h1>Sign Up</h1>
+<form th:action="@{/signup}" method="post">
+
+    <label for="email">Password:</label>
+    <input type="email" name="email" id="email" required /><br/>
+
+
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required /><br/>
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required /><br/>
+
+    <label for="role">Role:</label>
+    <select name="role" id="role">
+        <option value="EMPLOYEE">Employee</option>
+        <option value="MANAGER">Manager</option>
+        <!-- Admin registration might be restricted -->
+    </select><br/>
+
+    <button type="submit">Sign Up</button>
+</form>
+</body>
+</html>
