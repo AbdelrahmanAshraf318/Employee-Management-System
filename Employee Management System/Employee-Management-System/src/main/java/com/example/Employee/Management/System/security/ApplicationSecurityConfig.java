@@ -19,9 +19,12 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 public class ApplicationSecurityConfig {
 
     private final UserService userService;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
-    public ApplicationSecurityConfig(UserService userService) {
+    public ApplicationSecurityConfig(UserService userService, CustomAuthenticationSuccessHandler successHandler)
+    {
         this.userService = userService;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -29,11 +32,17 @@ public class ApplicationSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/",  "/index.html").permitAll()
+                        .requestMatchers("/", "/default", "/index.html", "/signup", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/manager/**").hasRole("MANAGER")
                         .requestMatchers("/employee/**").hasAnyRole("EMPLOYEE", "MANAGER", "ADMIN")
                         .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                        .successHandler(successHandler) // Custom role-based redirection
+
                 )
                 .httpBasic(httpBasic -> {}); // Enable HTTP Basic Authentication
 
