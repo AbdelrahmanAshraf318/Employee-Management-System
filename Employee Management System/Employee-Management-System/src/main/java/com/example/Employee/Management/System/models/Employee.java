@@ -31,9 +31,6 @@ public class Employee extends User
     @Column(name = "days_Employed")
     private int daysEmployed;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company; // Reference to Company entity
 
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false) // Many employees belong to one department
@@ -139,13 +136,7 @@ public class Employee extends User
         this.daysEmployed = daysEmployed;
     }
 
-    public Company getCompany() {
-        return company;
-    }
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 
     public Department getDepartment() {
         return department;

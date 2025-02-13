@@ -47,6 +47,10 @@ public class User implements UserDetails
     private Role role;
 
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company; // Reference to Company entity
+
 
     public UUID getId() {
         return id;
@@ -106,6 +110,15 @@ public class User implements UserDetails
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/companies/departments")
+@RequestMapping("/api/departments")
 public class DepartmentController
 {
     private final DepartmentService departmentService;
