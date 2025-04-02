@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,11 +18,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USER_TABLE")
-public class User implements UserDetails
+public class User
 {
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -46,79 +52,5 @@ public class User implements UserDetails
     @Column(name = "role", nullable = false)
     private Role role;
 
-
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = false)
-    private Company company; // Reference to Company entity
-
-
-    public UUID getId() {
-        return id;
-    }
-
-
-
-    public Role getRole() {
-        return role;
-    }
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-
-    // Spring Security methods
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
 
 }

@@ -3,12 +3,17 @@ package com.example.Employee.Management.System.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(
         name = "DEPARTMENT",
         uniqueConstraints = @UniqueConstraint(
@@ -18,6 +23,7 @@ import java.util.UUID;
 public class Department
 {
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
             name = "UUID",
@@ -43,44 +49,4 @@ public class Department
     private List<Employee> employees;
 
 
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public String getDept_name() {
-        return dept_name;
-    }
-
-    public void setDept_name(String dept_name) {
-        this.dept_name = dept_name;
-    }
-
-    public int getNumberOfEmployees() {
-        return employees != null ? employees.size() : 0;
-    }
-
-    public void setNumberOfEmployees(int numberOfEmployees) {
-        this.numberOfEmployees = numberOfEmployees;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
 }

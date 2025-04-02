@@ -3,12 +3,20 @@ package com.example.Employee.Management.System.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "EMPLOYEE")
 public class Employee extends User
 {
@@ -59,98 +67,9 @@ public class Employee extends User
     @Column(name = "status", nullable = false)
     private EmployeeStatus status;
 
-
-    public double getWorkingHours() {
-        return workingHours;
-    }
-
-    public void setWorkingHours(double workingHours) {
-        this.workingHours = workingHours;
-    }
-
-    public double getHourly_rate() {
-        return hourly_rate;
-    }
-
-    public void setHourly_rate(double hourly_rate) {
-        this.hourly_rate = hourly_rate;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public EmployeeStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(EmployeeStatus status) {
-        this.status = status;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public LocalDate getHiredOn() {
-        return hiredOn;
-    }
-
-    public void setHiredOn(LocalDate hiredOn) {
-        this.hiredOn = hiredOn;
-    }
-
-    public int getDaysEmployed() {
-        return daysEmployed;
-    }
-
-    public void setDaysEmployed(int daysEmployed) {
-        this.daysEmployed = daysEmployed;
-    }
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = false)
+    private Company company; // Reference to Company entity
 
 
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }
