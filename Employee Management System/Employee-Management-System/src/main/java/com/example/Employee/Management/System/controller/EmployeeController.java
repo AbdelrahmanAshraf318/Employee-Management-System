@@ -1,6 +1,7 @@
 package com.example.Employee.Management.System.controller;
 
 
+import com.example.Employee.Management.System.dtos.EmployeeDTO;
 import com.example.Employee.Management.System.models.Employee;
 import com.example.Employee.Management.System.service.EmployeeService;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/companies")
+@RequestMapping("/api/employees")
 public class EmployeeController
 {
     private final EmployeeService employeeService;
@@ -35,13 +36,13 @@ public class EmployeeController
         }
     }
 
-    @PutMapping("/{comp_id}/employees/{emp_id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable UUID comp_id,
+    @PatchMapping("/{comp_id}/employees/{emp_id}")
+    public ResponseEntity<?> updateEmployee(@PathVariable UUID comp_id,
                                                    @PathVariable UUID emp_id,
-                                                   @RequestBody Employee updated_employee)
+                                                   @RequestBody EmployeeDTO employeeDTO)
     {
         try {
-            Employee updated = employeeService.updateEmployee(updated_employee,
+            EmployeeDTO updated = employeeService.updateEmployee(employeeDTO,
                     emp_id, comp_id);
             return ResponseEntity.ok(updated);
         }catch (EntityNotFoundException | IllegalArgumentException e){

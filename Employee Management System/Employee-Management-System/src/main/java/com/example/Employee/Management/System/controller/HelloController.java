@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/hello")
 public class HelloController
 {
-    @GetMapping("/")
+    @GetMapping
     public String greet()
     {
         return "Welcome to Employee Management System";

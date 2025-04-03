@@ -1,8 +1,11 @@
 package com.example.Employee.Management.System.controller;
 
 
+import com.example.Employee.Management.System.dtos.CompanyDTO;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.service.CompanyService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,13 @@ public class CompanyController
         this.companyService = companyService;
     }
 
+    @PostMapping
+    public ResponseEntity<?> addCompany(@RequestBody @Valid Company company)
+    {
+        Company createdCompany = companyService.createCompany(company);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCompany);
+    }
+
     // Get all companies
     @GetMapping
     public List<Company> getAllCompanies()
@@ -36,10 +46,10 @@ public class CompanyController
     }
 
     // Update a company
-    @PutMapping("/{id}")
-    public Company updateCompany(UUID id, @RequestBody Company company)
+    @PatchMapping("/{id}")
+    public CompanyDTO updateCompany(UUID id, @RequestBody CompanyDTO companyDTO)
     {
-        return companyService.updateCompany(id, company);
+        return companyService.updateCompany(id, companyDTO);
     }
 
     // Delete a company

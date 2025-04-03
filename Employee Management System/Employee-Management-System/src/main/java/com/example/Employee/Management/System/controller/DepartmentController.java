@@ -1,9 +1,11 @@
 package com.example.Employee.Management.System.controller;
 
 
+import com.example.Employee.Management.System.dtos.DepartmentDTO;
 import com.example.Employee.Management.System.models.Department;
 import com.example.Employee.Management.System.service.DepartmentService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,16 +24,17 @@ public class DepartmentController
         this.departmentService = departmentService;
     }
 
-    @GetMapping("/company/{comp_id}")
+
+    @GetMapping("/{comp_id}")
     public ResponseEntity<List<Department>> getDepartmentsByCompany(@PathVariable UUID comp_id)
     {
         List<Department> departments = departmentService.getDepartmentsByCompany(comp_id);
         return ResponseEntity.ok(departments);
     }
 
-    @DeleteMapping("/company/{comp_id}/department/{dept_id}")
-    public ResponseEntity<Void> deleteDepartmentByCompany(@PathVariable UUID dept_id
-            ,@PathVariable UUID comp_id)
+    @DeleteMapping("/{comp_id}/{dept_id}")
+    public ResponseEntity<Void> deleteDepartmentByCompany(@PathVariable UUID comp_id,
+                                                          @PathVariable UUID dept_id)
     {
         try {
             departmentService.deleteDepartmentByCompany(dept_id, comp_id);
@@ -56,13 +59,13 @@ public class DepartmentController
         }
     }
 
-    @PutMapping("/company/{comp_id}/department/{dept_id}")
-    public ResponseEntity<Department> updateDepartment(@PathVariable UUID comp_id,
+    @PutMapping("/{comp_id}/{dept_id}")
+    public ResponseEntity<DepartmentDTO> updateDepartment(@PathVariable UUID comp_id,
                                 @PathVariable UUID dept_id,
-                               @RequestBody Department updated_department)
+                               @RequestBody DepartmentDTO departmentDTO)
     {
         try {
-            Department department = departmentService.UpdateDepartmentByCompany(updated_department,
+            DepartmentDTO department = departmentService.UpdateDepartmentByCompany(departmentDTO,
                     comp_id, dept_id);
             return ResponseEntity.ok(department);
         }catch (EntityNotFoundException xe){

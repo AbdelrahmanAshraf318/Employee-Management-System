@@ -1,5 +1,6 @@
 package com.example.Employee.Management.System.service;
 
+import com.example.Employee.Management.System.dtos.DepartmentDTO;
 import com.example.Employee.Management.System.exception.ResourceNotFoundException;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.models.Department;
@@ -59,7 +60,7 @@ public class DepartmentService
     }
 
     // Update a department into a specific company
-    public Department UpdateDepartmentByCompany(Department update_department, UUID comp_id, UUID dept_id)
+    public DepartmentDTO UpdateDepartmentByCompany(DepartmentDTO departmentDTO, UUID comp_id, UUID dept_id)
     {
         // Retrieve the company
         Company company = companyRepo.findById(comp_id)
@@ -74,22 +75,23 @@ public class DepartmentService
             throw new IllegalArgumentException("The department does not belong to the specified company");
         }
 
-        // Ensure that the IDs match
-        if (!update_department.getId().equals(dept_id)) {
-            throw new IllegalArgumentException("You want to update a different department");
-        }
 
-        // Validate for duplicate department name within the company
-        if (!department.getDept_name().equals(update_department.getDept_name()) &&
-                departmentRepo.existsByIdAndCompanyId(update_department.getId(), comp_id)) {
-            throw new IllegalArgumentException("A department with the same name already exists in this company");
-        }
 
         // Update modifiable fields
-        department.setDept_name(update_department.getDept_name());
+        department.setDept_name(departmentDTO.getDept_name());
+        department.setCompany(departmentDTO.getCompany());
+        department.setEmployees(departmentDTO.getEmployees());
+        department.setNumberOfEmployees(departmentDTO.getNumberOfEmployees());
+
+        Department updatedDept = departmentRepo.save(department);
 
         // Return the updated department
-        return departmentRepo.save(department);
+        return new DepartmentDTO(
+                updatedDept.getCompany(),
+                updatedDept.getDept_name(),
+                updatedDept.getNumberOfEmployees(),
+                updatedDept.getEmployees()
+        );
     }
 
 

@@ -3,4 +3,4 @@
 -- desc COMPANY;
 -- desc DEPARTMENT;
 
-SELECT * FROM USER_TABLE WHERE LOWER(username) = 'ashraf';
+SELECT * FROM USER_TABLE;

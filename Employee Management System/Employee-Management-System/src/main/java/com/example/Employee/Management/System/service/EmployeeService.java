@@ -1,5 +1,6 @@
 package com.example.Employee.Management.System.service;
 
+import com.example.Employee.Management.System.dtos.EmployeeDTO;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.models.Department;
 import com.example.Employee.Management.System.models.Employee;
@@ -64,7 +65,7 @@ public class EmployeeService
     }
 
     // Update an Employee
-    public Employee updateEmployee(Employee update_employee, UUID emp_id, UUID comp_id)
+    public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, UUID emp_id, UUID comp_id)
     {
         Company company = companyRepo.findById(comp_id)
                 .orElseThrow(() -> new EntityNotFoundException("Company Not Found"));
@@ -79,28 +80,34 @@ public class EmployeeService
         }
 
         // Ensure that the updated department in the updated_employee belongs to the company
-        if(update_employee != null)
+        if(employeeDTO != null)
         {
-            Department department = departmentRepo.findById(update_employee.getDepartment().getId())
+            Department department = departmentRepo.findById(exist_employee.getDepartment().getId())
                     .orElseThrow(() -> new EntityNotFoundException("Department not found with ID: " +
-                            update_employee.getDepartment().getId()));
+                            exist_employee.getDepartment().getId()));
 
             if(!department.getCompany().getId().equals(comp_id))
             {
                 throw new IllegalArgumentException("The new department does not belong to the specified company");
             }
-            exist_employee.setDepartment(department);
         }
-        exist_employee.setName(update_employee.getName());
-        exist_employee.setAddress(update_employee.getAddress());
-        exist_employee.setDesignation(update_employee.getDesignation());
-        exist_employee.setPhoneNumber(update_employee.getPhoneNumber());
-        exist_employee.setStatus(update_employee.getStatus());
-        exist_employee.setHourly_rate(update_employee.getHourly_rate());
-        exist_employee.setWorkingHours(update_employee.getWorkingHours());
-        exist_employee.setEmail(update_employee.getEmail());
+        exist_employee.setName(employeeDTO.getName());
+        exist_employee.setAddress(employeeDTO.getAddress());
+        exist_employee.setPhoneNumber(employeeDTO.getPhoneNumber());
+        exist_employee.setEmail(employeeDTO.getEmail());
+        exist_employee.setPassword(employeeDTO.getPassword());
+        exist_employee.setUsername(employeeDTO.getUsername());
 
-        return employeeRepo.save(exist_employee);
+        Employee employee = employeeRepo.save(exist_employee);
+
+        return new EmployeeDTO(
+                employee.getName(),
+                employeeDTO.getEmail(),
+                employeeDTO.getAddress(),
+                employeeDTO.getPhoneNumber(),
+                employeeDTO.getUsername(),
+                employeeDTO.getPassword()
+        );
     }
 
     // Delete an Employee

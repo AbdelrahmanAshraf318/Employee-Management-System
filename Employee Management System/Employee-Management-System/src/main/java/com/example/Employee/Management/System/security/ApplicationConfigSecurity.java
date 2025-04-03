@@ -50,17 +50,5 @@ public class ApplicationConfigSecurity
         return provider;
     }
 
-   /* @Bean
-    public UserDetailsService userDetailsService()
-    {
-        // This is not connected to the database
-        UserDetails user1 = User
-                .withDefaultPasswordEncoder()
-                .username("ashraf")
-                .password("ash@123")
-                .roles("ADMIN")
-                .build();
 
-        return new InMemoryUserDetailsManager(user1);
-    }*/
 }

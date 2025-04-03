@@ -1,5 +1,6 @@
 package com.example.Employee.Management.System.service;
 
+import com.example.Employee.Management.System.dtos.CompanyDTO;
 import com.example.Employee.Management.System.exception.ResourceNotFoundException;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.repository.CompanyRepo;
@@ -19,6 +20,13 @@ public class CompanyService
         this.companyRepo = companyRepo;
     }
 
+    public Company createCompany(Company company)
+    {
+        if(companyRepo.existsById(company.getId()))
+            throw new IllegalArgumentException("Company you need to add is already exist");
+        return companyRepo.save(company);
+    }
+
     // Get All Companies
     public List<Company> getAllCompanies()
     {
@@ -35,18 +43,25 @@ public class CompanyService
     }
 
     // Update a specific company
-    public Company updateCompany(UUID company_id, Company update_company)
+    public CompanyDTO updateCompany(UUID company_id, CompanyDTO companyDTO)
     {
         Company find_company = companyRepo.findById(company_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
 
-        find_company.setCompany_name(update_company.getCompany_name());
-        find_company.setDepartments(update_company.getDepartments());
+        find_company.setCompany_name(companyDTO.getCompanyName());
+        find_company.setNumberOfDepartments(companyDTO.getNumberOfDepartments());
+        find_company.setNumberOfEmployees(companyDTO.getNumberOfEmployees());
+        find_company.setDepartments(companyDTO.getDepartments());
 
-        return companyRepo.save(find_company);
+        Company updatedCompany = companyRepo.save(find_company);
+
+        return new CompanyDTO(updatedCompany.getCompany_name(),
+                updatedCompany.getNumberOfDepartments(),
+                updatedCompany.getNumberOfEmployees(),
+                updatedCompany.getDepartments());
     }
 
-    // Get a specific company
+ ;   // Get a specific company
     public Company getCompany(UUID company_id)
     {
         Company company = companyRepo.findById(company_id)
