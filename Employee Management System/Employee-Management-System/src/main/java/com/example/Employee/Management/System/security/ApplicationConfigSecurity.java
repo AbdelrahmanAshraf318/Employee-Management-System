@@ -27,11 +27,15 @@ public class ApplicationConfigSecurity
 
     private final CustomUserDetailsService userDetailsService;
 
-    public ApplicationConfigSecurity(CustomUserDetailsService userDetailsService) {
+
+    private CustomAuthenticationSuccessHandler customSuccessHandler;
+
+    public ApplicationConfigSecurity(CustomUserDetailsService userDetailsService,
+                                     CustomAuthenticationSuccessHandler customSuccessHandler)
+    {
         this.userDetailsService = userDetailsService;
+        this.customSuccessHandler = customSuccessHandler;
     }
-
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -52,9 +56,12 @@ public class ApplicationConfigSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/hello").permitAll()
                         .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
+                .formLogin(form ->
+                        form.successHandler(customSuccessHandler)
+                )
+                //.httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authenticationProvider(authenticationProvider());
 
         return http.build();

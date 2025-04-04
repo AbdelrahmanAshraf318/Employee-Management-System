@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/employees")
+@RequestMapping("/employee")
 public class EmployeeController
 {
     private final EmployeeService employeeService;
@@ -21,6 +21,12 @@ public class EmployeeController
     public EmployeeController(EmployeeService employeeService)
     {
         this.employeeService = employeeService;
+    }
+
+    @GetMapping("/")
+    public String greetEmployee()
+    {
+        return "Welcome Back!";
     }
 
     // Add an employee
