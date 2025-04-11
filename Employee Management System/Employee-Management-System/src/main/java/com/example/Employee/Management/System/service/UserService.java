@@ -5,11 +5,7 @@ import com.example.Employee.Management.System.models.User;
 import com.example.Employee.Management.System.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +18,7 @@ public class UserService
     private final UserRepo userRepo;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder encoder;
 
     public UserService(UserRepo userRepo)
     {
@@ -31,12 +27,12 @@ public class UserService
 
 
 
-    public void registerUser(User user)
+    public User registerUser(User user)
     {
         // Encode the raw password
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        userRepo.save(user);
+        return userRepo.save(user);
     }
 
     public User findById(UUID id)
@@ -56,10 +52,6 @@ public class UserService
         return userRepo.findByUsername(username);
     }
 
-    public User saveUser(User user)
-    {
-        return userRepo.save(user);
-    }
 
 
 }

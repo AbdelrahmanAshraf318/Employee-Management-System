@@ -33,9 +33,9 @@ public class UserController
         return userService.findById(user_id);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public User createUser(@RequestBody User user)
     {
-        return userService.saveUser(user);
+        return userService.registerUser(user);
     }
 }

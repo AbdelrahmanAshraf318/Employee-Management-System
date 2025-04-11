@@ -1,5 +1,7 @@
 package com.example.Employee.Management.System.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController
 {
     @GetMapping("/")
-    public String admin()
+    public ResponseEntity<String> admin(Authentication authentication)
     {
-        return "Welcome ADMIN!";
+        String username = authentication.getName();
+        return ResponseEntity.ok("Welcome " + username + "!");
     }
 }

@@ -1,6 +1,8 @@
 package com.example.Employee.Management.System.controller;
 
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ManagerController
 {
     @GetMapping("/")
-    public String greetManager()
+    public ResponseEntity<String> greetManager(Authentication authentication)
     {
-        return "Welcome Back!";
+        String username = authentication.getName();
+        return ResponseEntity.ok("Welcome " + username + "!");
     }
 }
