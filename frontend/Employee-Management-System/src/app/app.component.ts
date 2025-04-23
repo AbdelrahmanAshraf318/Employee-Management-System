@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Employee-Management-System';
+  firstName = 'Abdelrahman';
+  lastName = 'Ashraf';
 }
