@@ -1,0 +1,24 @@
+<div *ngIf="users.length; else noData">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tempUser of users">
+          <td>{{ tempUser.username }}</td>
+          <td>{{ tempUser.role }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <ng-template #noData>
+    <!-- Custom message when no users or on error -->
+    <div class="alert alert-warning text-center">
+      Oops! We couldn’t load the user list right now. Please refresh or try again later.
+    </div>
+  </ng-template>
+  

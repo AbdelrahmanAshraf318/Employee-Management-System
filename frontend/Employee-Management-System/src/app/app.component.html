@@ -1,3 +1,19 @@
-<h1> Welcome To Employee Management System! </h1>
-
-<app-company-list></app-company-list>
+<header class="site-header">
+    <div class="header-inner">
+      <a class="logo" routerLink="/">EMS</a>
+      <nav class="nav-links">
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+      </nav>
+    </div>
+  </header>
+  
+  <main class="site-main">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <p>© 2025 Your Company Name. All rights reserved.</p>
+  </footer>
+  

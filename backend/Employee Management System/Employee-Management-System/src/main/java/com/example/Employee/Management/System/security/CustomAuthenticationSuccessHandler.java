@@ -18,37 +18,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication)
-            throws IOException, ServletException {
+            throws IOException {
 
-        // Determine target URL based on role
-        String targetUrl = determineTargetUrl(authentication.getAuthorities());
+        // Build JSON: send back the role or a URL for Angular
+        String role = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse("ROLE_USER");
+        String json = "{\"role\":\"" + role + "\"}";
 
-        // Redirect to the target URL
-        response.sendRedirect(targetUrl);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("application/json");
+        response.getWriter().write(json);
     }
 
-    private String determineTargetUrl(Collection<? extends GrantedAuthority> authorities) {
-        String targetUrl = "/home"; // Fallback URL
-        for (GrantedAuthority authority : authorities)
-        {
-            String role = authority.getAuthority();
-            if ("ROLE_ADMIN".equals(role))
-            {
-                targetUrl = "/admin/";
-                break;
-            }
-            else if ("ROLE_USER".equals(role))
-            {
-                targetUrl = "/employee/";
-                break;
-            }
-            else if("ROLE_MANAGER".equals(role))
-            {
-                targetUrl = "/manager/";
-                break;
-            }
-            // Add more role checks as needed
-        }
-        return targetUrl;
-    }
 }
