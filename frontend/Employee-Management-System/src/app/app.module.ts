@@ -7,16 +7,18 @@ import { EmployeeComponentComponent } from './components/employee-component/empl
 import { UserComponent } from './components/user/user.component';
 import {HttpClientModule} from '@angular/common/http';
 import { UserService } from './services/user.service';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth/auth.service';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeeComponentComponent,
     UserComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

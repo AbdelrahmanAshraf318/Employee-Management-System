@@ -1,18 +1,51 @@
-<header class="site-header">
-    <div class="header-inner">
-      <a class="logo" routerLink="/">EMS</a>
-      <nav class="nav-links">
-        <a routerLink="/login" routerLinkActive="active">Login</a>
-      </nav>
-    </div>
+<body>
+  <header class="site-header fixed-top">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a class="navbar-brand" routerLink="/">EMS</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                routerLink="/login"
+                routerLinkActive="active"
+                ><i class="fas fa-sign-in-alt me-1"></i>Login</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   </header>
 
-  <main class="site-main">
-    <div class="content-wrapper">
-      <router-outlet></router-outlet>
+  <main class="site-main mt-5 pt-4">
+    <div class="container my-5">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Your Company Name. All rights reserved.</p>
+  <footer class="site-footer text-center">
+    <div class="container">
+      <p class="mb-2">© 2025 Your Company Name. All rights reserved.</p>
+      <p>
+        <a href="#"><i class="fab fa-facebook-f fa-lg"></i></a>
+        <a href="#"><i class="fab fa-twitter fa-lg"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in fa-lg"></i></a>
+      </p>
+    </div>
   </footer>
+</body>

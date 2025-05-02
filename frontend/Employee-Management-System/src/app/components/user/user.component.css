@@ -1,0 +1,81 @@
+/* Make the table container look like a card */
+:host > div {
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Gradient header for the table */
+  :host table thead {
+    background: linear-gradient(90deg, #0062E6, #33AEFF);
+  }
+  :host table thead th {
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: none;
+    padding: 1rem;
+  }
+  
+  /* Striped rows with soft highlight on hover */
+  :host table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 98, 230, 0.05);
+  }
+  :host table.table-hover tbody tr:hover {
+    background-color: rgba(0, 98, 230, 0.15);
+    transform: translateX(4px);
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  /* Cell padding and font styling */
+  :host table td {
+    padding: 0.75rem 1.25rem;
+    vertical-align: middle;
+    color: #333;
+    font-size: 0.95rem;
+  }
+  
+  /* “No data” alert styling */
+  :host .alert {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
+  
+  /* Responsive: stack rows on small screens */
+  @media (max-width: 576px) {
+    :host table thead {
+      display: none;
+    }
+    :host table,
+    :host table tbody,
+    :host table tr,
+    :host table td {
+      display: block;
+      width: 100%;
+    }
+    :host table tr {
+      margin-bottom: 1rem;
+    }
+    :host table td {
+      padding: 0.75rem 1rem;
+      position: relative;
+      text-align: right;
+    }
+    :host table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #555;
+    }
+  }
+  

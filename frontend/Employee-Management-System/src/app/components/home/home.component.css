@@ -1,0 +1,67 @@
+/* Make hero cover full viewport */
+.hero {
+    position: relative;
+    height: 100vh;
+    background: url('https://source.unsplash.com/1600x900/?office,workspace') center/cover no-repeat;
+    overflow: hidden;
+  }
+  
+  /* Subtle dark overlay for contrast */
+  .hero .overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1s ease-out;
+  }
+  
+  /* Centered content with entrance animation */
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  /* Gradient button with hover transition */
+  .btn-gradient {
+    background: linear-gradient(45deg, #ff8a00, #e52e71);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .btn-gradient:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Keyframe for overlay fade-in */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  
+  /* Keyframe for text sliding up */
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .hero-content h1 {
+      font-size: 2.25rem;
+    }
+    .btn-gradient {
+      width: 100%;
+      padding: 0.75rem;
+    }
+  }
+  
