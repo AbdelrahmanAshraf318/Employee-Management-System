@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -24,8 +25,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "USER_TABLE")
-public class User
+public class User implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue(generator = "UUID")

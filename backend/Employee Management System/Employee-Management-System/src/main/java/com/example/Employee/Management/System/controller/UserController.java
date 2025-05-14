@@ -3,9 +3,13 @@ package com.example.Employee.Management.System.controller;
 
 import com.example.Employee.Management.System.models.User;
 import com.example.Employee.Management.System.service.UserService;
+import org.springframework.data.util.ReflectionUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +26,11 @@ public class UserController
         this.userService = userService;
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable UUID id, Map<String, Object> updates)
+    {
+        return userService.updateUser(id, updates);
+    }
 
     @GetMapping
     public List<User> getUsers()
