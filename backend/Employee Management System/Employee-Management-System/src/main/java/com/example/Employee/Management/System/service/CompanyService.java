@@ -4,6 +4,7 @@ import com.example.Employee.Management.System.dtos.CompanyDTO;
 import com.example.Employee.Management.System.exception.ResourceNotFoundException;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.repository.CompanyRepo;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.ReadOnlyFileSystemException;
@@ -61,7 +62,8 @@ public class CompanyService
                 updatedCompany.getDepartments());
     }
 
- ;   // Get a specific company
+    // Get a specific company
+    @Cacheable(value = "company", key = "#id")
     public Company getCompany(UUID company_id)
     {
         Company company = companyRepo.findById(company_id)

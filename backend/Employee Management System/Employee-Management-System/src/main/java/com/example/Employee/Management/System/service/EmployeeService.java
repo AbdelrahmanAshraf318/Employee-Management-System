@@ -8,6 +8,7 @@ import com.example.Employee.Management.System.repository.CompanyRepo;
 import com.example.Employee.Management.System.repository.DepartmentRepo;
 import com.example.Employee.Management.System.repository.EmployeeRepo;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class EmployeeService
     }
 
     // Get Employee by ID
+    @Cacheable(value = "employee", key = "#id")
     public Employee getEmployeeById(UUID emp_id, UUID comp_id)
     {
         Company company = companyRepo.findById(comp_id)
