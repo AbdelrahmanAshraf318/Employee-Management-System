@@ -39,6 +39,15 @@ public class User implements Serializable
     @Column(name = "user_id", columnDefinition = "RAW(16)", unique = true, nullable = false)
     private UUID id;
 
+    @NotBlank(message = "Email is mandatory")  // Validates non-null and non-empty
+    @Email(message = "Email should be valid")  // Validates email format
+    @Column(name = "email", unique = true, nullable = false)   // Ensures uniqueness and non-null in DB
+    private String email;
+
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 4, message = "Name must be at least 4 characters long")
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotBlank(message = "Username is mandatory")
     @Size(min = 6, message = "Username must be at least 6 characters long")
