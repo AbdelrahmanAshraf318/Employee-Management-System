@@ -28,6 +28,11 @@ export class AuthService {
     );
   }
 
+
+  register(userData: any): Observable<any> {
+    return this.http.post(this.loginUrl + '/user/register', userData, { withCredentials: false });
+  }
+
   fetchUser(): Observable<any>{
     return this.http.get(this.loginUrl + '/user', {withCredentials: true});
   }

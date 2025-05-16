@@ -20,15 +20,6 @@ import java.util.UUID;
 @Table(name = "EMPLOYEE")
 public class Employee extends User
 {
-    @NotBlank(message = "Name is mandatory")
-    @Size(min = 4, message = "Name must be at least 4 characters long")
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @NotBlank(message = "Email is mandatory")  // Validates non-null and non-empty
-    @Email(message = "Email should be valid")  // Validates email format
-    @Column(name = "email", unique = true, nullable = false)   // Ensures uniqueness and non-null in DB
-    private String email;
 
     @Column(name = "designation", nullable = false)
     private String designation; // Position or title

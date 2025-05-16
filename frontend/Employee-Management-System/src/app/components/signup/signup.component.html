@@ -1,0 +1,88 @@
+<div class="signup-container d-flex align-items-center justify-content-center">
+    <div class="signup-card text-center p-4">
+        <div class="logo mb-3">
+            <i class="fas fa-user-circle fa-4x"></i>
+        </div>
+        <h2 class="mb-4">Register</h2>
+
+        <form (ngSubmit)="signup()" class="w-100">
+            <div class="form-group mb-3">
+                <input 
+                    id="name"
+                    type="text"
+                    [(ngModel)]="name"
+                    name="name"
+                    required
+                    class="form-control"
+                    placeholder="Name"
+                />
+            </div>
+
+            <div class="form-group mb-3">
+                <input 
+                    id="email"
+                    type="email"
+                    [(ngModel)]="email"
+                    name="email"
+                    required
+                    email
+                    class="form-control"
+                    placeholder="Email"
+                    #emailField="ngModel"
+                />
+
+                <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-danger">
+                    <div *ngIf="emailField.errors?.['required']">Email is required.</div>
+                    <div *ngIf="emailField.errors?.['email']">Must be a valid email.</div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <input 
+                    id="username"
+                    type="text"
+                    [(ngModel)]="username"
+                    name="username"
+                    required
+                    class="form-control"
+                    placeholder="Username"
+                />
+            </div>
+
+
+            <div class="form-group mb-3">
+                <input 
+                    id="password"
+                    type="password"
+                    [(ngModel)]="password"
+                    name="password"
+                    required
+                    class="form-control"
+                    placeholder="Password"
+                />
+            </div>
+
+            <div class="form-group mb-3">
+                <select
+                id="role"
+                [(ngModel)]="role"
+                name="role"
+                required
+                class="form-control"
+                title="Role"
+                >
+                    <option value="" disabled selected>Select a role</option>
+                    <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+                </select>
+            </div>
+
+            <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+            </div>
+
+            <button type="submit" class="btn btn-gradient w-100 py-2">
+                <i class="fas fa-sign-in-alt me-2"></i> Register
+            </button>
+        </form>
+    </div>
+</div>
