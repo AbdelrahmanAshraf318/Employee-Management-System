@@ -4,6 +4,7 @@ import com.example.Employee.Management.System.dtos.CompanyDTO;
 import com.example.Employee.Management.System.exception.ResourceNotFoundException;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.repository.CompanyRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,14 @@ public class CompanyService
         if(companyRepo.existsById(company.getId()))
             throw new IllegalArgumentException("Company you need to add is already exist");
         return companyRepo.save(company);
+    }
+
+    public UUID getCompanyIdByName(String company_name)
+    {
+        return companyRepo.findCompanyIdByName(company_name)
+                .orElseThrow(
+                        () -> new EntityNotFoundException("No Company found with name = " + company_name)
+                );
     }
 
     // Get All Companies
