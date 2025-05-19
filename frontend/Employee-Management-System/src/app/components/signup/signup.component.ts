@@ -18,12 +18,12 @@ export class SignupComponent implements OnInit {
   password: String = '';
 
   // Additional Fields (the wrapper fields)
-  designation: String = '';
+  designation: string = '';
   hiredOn: Date = new Date();
-  address: String = '';
-  phoneNumber: String = '';
-  dept_name: String = '';
-  company_name: String = '';
+  address: string = '';
+  phoneNumber: string = '';
+  dept_name: string = '';
+  company_name: string = '';
 
   errorMessage: string = '';
   roles: string[] = ['ADMIN', 'MANAGER', 'EMPLOYEE']; 
@@ -34,44 +34,47 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  signup(): void
-  {
-    const userData = {
-      name: this.name,
-      email: this.email,
-      role: this.role,
-      username: this.username,
-      password: this.password,
+  signup(): void {
+  if (this.role === 'MANAGER' || this.role === 'EMPLOYEE') {
+    this.authService.getCompanyIdByName(this.company_name).subscribe({
+      next: (company) => {
+        const userData = {
+          name: this.name,
+          email: this.email,
+          role: this.role,
+          username: this.username,
+          password: this.password,
+          companyId: company.id,
+          designation: this.designation,
+          hiredOn: this.hiredOn,
+          address: this.address,
+          phoneNumber: this.phoneNumber,
+          dept_name: this.dept_name,
+          company_name: this.company_name
+        };
 
-      designation: this.designation,
-      hiredOn: this.hiredOn,
-      address: this.address,
-      phoneNumber: this.phoneNumber,
-      dept_name: this.dept_name,
-      company_name: this.company_name
-
-    };
-
-    // Add the extra fields if the user's role is MANAGER or EMPLOYEE
-    if(this.role === 'MANAGER' || this.role === 'EMPLOYEE')
-    {
-      userData.designation = this.designation;
-      userData.hiredOn = this.hiredOn;
-      userData.address = this.address;
-      userData.phoneNumber = this.phoneNumber;
-      userData.dept_name = this.dept_name;
-      userData.company_name = this.company_name;
-    }
-
-    this.authService.register(userData).subscribe({
-      next: () => {
-        this.router.navigate(['/login']);
+        this.authService.register(userData).subscribe({
+          next: () => this.router.navigate(['/login']),
+          error: (err) => this.errorMessage = err.error?.message || 'Registration failed.'
+        });
       },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Registration failed. Try again.';
+      error: () => this.errorMessage = 'Company not found.'
+        });
+      } else {
+        const userData = {
+          name: this.name,
+          email: this.email,
+          role: this.role,
+          username: this.username,
+          password: this.password
+        };
+
+        this.authService.register(userData).subscribe({
+          next: () => this.router.navigate(['/login']),
+          error: (err) => this.errorMessage = err.error?.message || 'Registration failed.'
+        });
       }
-    });
-  }
+    }
 
   get showWrapperFields(): boolean
   {
