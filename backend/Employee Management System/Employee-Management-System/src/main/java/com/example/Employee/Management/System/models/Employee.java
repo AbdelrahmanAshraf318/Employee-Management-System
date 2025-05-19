@@ -27,7 +27,7 @@ public class Employee extends User
     @Column(name = "hired_On")
     private LocalDate hiredOn;
 
-    @Column(name = "days_Employed")
+    @Column(name = "days_Employed") // Count automatically in the database
     private int daysEmployed;
 
 

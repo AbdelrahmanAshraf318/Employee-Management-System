@@ -31,6 +31,13 @@ public class CompanyController
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCompany);
     }
 
+
+    @GetMapping("/{company_name}/company")
+    public UUID getCompanyIdByName(@PathVariable String company_name)
+    {
+        return companyService.getCompanyIdByName(company_name);
+    }
+
     // Get all companies
     @GetMapping
     public List<Company> getAllCompanies()
