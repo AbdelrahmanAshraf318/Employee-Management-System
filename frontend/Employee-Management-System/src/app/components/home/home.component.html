@@ -1,14 +1,129 @@
-<section class="hero d-flex align-items-center">
+<!-- Existing Home Page Content -->
+  <div *ngIf="isHomePage()">
+   
+    <!-- Hero Section -->
+  <section class="hero d-flex align-items-center">
     <div class="overlay"></div>
     <div class="container text-center hero-content">
-      <h1 class="display-3 fw-bold">Welcome to EMS</h1>
+      <h1 class="display-3 fw-bold mb-4">Modern Employee Management</h1>
       <p class="lead mb-4">
-        Streamline your employee management with ease and style.
+        Streamline your workforce management with our intuitive, powerful EMS platform.
+        <br>Everything you need in one place.
       </p>
-      <a class="btn btn-lg btn-gradient px-4 py-2" routerLink="/login">
-        Get Started
-        <i class="fas fa-arrow-right ms-2"></i>
-      </a>
+      <div class="d-flex justify-content-center gap-3">
+        <a class="btn btn-primary btn-lg px-4 py-2 rounded-pill" routerLink="/login">
+          Get Started <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+        <a class="btn btn-outline-light btn-lg px-4 py-2 rounded-pill" (click)="scrollTo('features')">
+          Learn More <i class="fas fa-book-open ms-2"></i>
+        </a>
+      </div>
+    </div>
+    <a (click)="scrollTo('features')" class="scroll-down">
+      <i class="fas fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Powerful Features</h2>
+        <p class="section-subtitle">Everything you need to manage your workforce efficiently</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4" *ngFor="let feature of features">
+          <div class="feature-card">
+            <div class="feature-icon" [ngClass]="'bg-' + feature.color">
+              <i [class]="feature.icon"></i>
+            </div>
+            <h3>{{feature.title}}</h3>
+            <p>{{feature.description}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
-  
+
+  <!-- Stats Section -->
+  <section class="stats-section py-5">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-3" *ngFor="let stat of stats">
+          <div class="stat-item">
+            <h3 class="counter" [attr.data-target]="stat.value">{{stat.initial}}</h3>
+            <p>{{stat.label}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about-section py-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="assets/images/team-working.jpg" alt="Team working" class="img-fluid rounded shadow">
+        </div>
+        <div class="col-lg-6">
+          <h2 class="section-title">About Our EMS Platform</h2>
+          <p>Our Employee Management System is designed to simplify HR processes and improve workforce productivity. With over a decade of experience in HR technology, we've created a solution that addresses the real challenges faced by modern businesses.</p>
+          
+          <div class="about-features mt-4">
+            <div class="d-flex mb-3" *ngFor="let point of aboutPoints">
+              <div class="flex-shrink-0">
+                <i class="fas fa-check-circle text-primary"></i>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5>{{point.title}}</h5>
+                <p>{{point.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials py-5 bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <p class="section-subtitle">Trusted by companies worldwide</p>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-4 mb-4" *ngFor="let testimonial of testimonials">
+          <div class="testimonial-card">
+            <div class="stars">
+              <i class="fas fa-star" *ngFor="let star of [].constructor(testimonial.rating)"></i>
+              <i class="fas fa-star-half-alt" *ngIf="testimonial.rating % 1 > 0"></i>
+            </div>
+            <p class="quote">"{{testimonial.quote}}"</p>
+            <div class="client-info">
+              <img [src]="'assets/images/' + testimonial.image" alt="Client" class="client-img">
+              <div>
+                <h5>{{testimonial.name}}</h5>
+                <p class="mb-0">{{testimonial.position}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section py-5 text-center">
+    <div class="container">
+      <h2 class="mb-4">Ready to Transform Your Employee Management?</h2>
+      <p class="mb-5">Join thousands of companies who have streamlined their HR processes with EMS Pro</p>
+      <a routerLink="/register" class="btn btn-light btn-lg px-5 py-3 rounded-pill">Start Your Free Trial Now</a>
+    </div>
+  </section>
+
+
+  </div>

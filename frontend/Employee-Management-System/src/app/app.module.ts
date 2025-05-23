@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth/auth.service';
 import { HomeComponent } from './components/home/home.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,13 +23,16 @@ import { SignupComponent } from './components/signup/signup.component';
     UserComponent,
     LoginComponent,
     HomeComponent,
-    SignupComponent
+    SignupComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [UserService, AuthService],
   bootstrap: [AppComponent]

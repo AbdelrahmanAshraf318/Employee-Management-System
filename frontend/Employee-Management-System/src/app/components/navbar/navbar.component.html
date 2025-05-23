@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="fas fa-users-cog me-2"></i>EMS
+    </a>
+    <button
+  class="navbar-toggler"
+  type="button"
+  (click)="isCollapsed = !isCollapsed"
+  aria-label="Toggle navigation"
+  [attr.aria-expanded]="!isCollapsed"
+  aria-controls="navbarNav"
+>
+  <span class="navbar-toggler-icon"></span>
+</button>
+    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scrollTo('features')" routerLinkActive="active">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="scrollTo('about')" routerLinkActive="active">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
+        </li>
+        <li class="nav-item ms-lg-3">
+          <a class="btn btn-outline-light" routerLink="/login">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
