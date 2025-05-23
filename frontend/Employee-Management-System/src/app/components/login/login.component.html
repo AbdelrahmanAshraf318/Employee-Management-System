@@ -27,12 +27,39 @@
           required
           class="form-control"
           placeholder="Password"
+          #passwordField
         />
+        <i 
+          class="password-toggle fas"
+          [class.fa-eye]="!showPassword"
+          [class.fa-eye-slash]="showPassword"
+          (click)="togglePasswordVisibility()"
+        ></i>
+      </div>
+
+      <div class="text-end mb-3">
+        <a routerLink="/forgot-password" class="text-muted small">Forgot Password?</a>
       </div>
 
       <button type="submit" class="btn btn-gradient w-100 py-2">
         <i class="fas fa-sign-in-alt me-2"></i> Sign In
       </button>
+
+      <div class="divider my-4">OR</div>
+
+      <div class="social-login d-flex justify-content-center gap-3">
+        <button type="button" class="btn btn-outline-secondary rounded-circle social-btn"  title="Login with Google" aria-label="Login with Google">
+        <i class="fab fa-google" aria-hidden="true"></i>
+          </button>
+
+          <button type="button" class="btn btn-outline-secondary rounded-circle social-btn"  title="Login with Microsoft" aria-label="Login with Microsoft">
+            <i class="fab fa-microsoft" aria-hidden="true"></i>
+          </button>
+
+          <button type="button" class="btn btn-outline-secondary rounded-circle social-btn"  title="Login with Apple" aria-label="Login with Apple">
+            <i class="fab fa-apple" aria-hidden="true"></i>
+          </button>
+      </div>
     </form>
 
     <p class="mt-3 text-muted">

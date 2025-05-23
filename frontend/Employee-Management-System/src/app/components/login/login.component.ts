@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
   errorMsg: string = '';
+  showPassword = false;
 
   constructor(private authService: AuthService, 
     private router: Router, private http: HttpClient
@@ -20,6 +21,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+    const passwordField = document.getElementById('password') as HTMLInputElement;
+    passwordField.type = this.showPassword ? 'text' : 'password';
+}
 
   login(): void {
     this.authService.login(this.username, this.password).subscribe({

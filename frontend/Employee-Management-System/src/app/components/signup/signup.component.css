@@ -1,69 +1,160 @@
-/* Container Styling */
+/* Signup Container Styles */
 .signup-container {
-    height: 100vh;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
-    padding: 20px;
-  }
-  
-  /* Card Styling */
-  .signup-card {
-    background-color: #ffffff;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4361ee, #3f37c9);
+    padding: 2rem;
+}
+
+.signup-card {
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
     width: 100%;
-  }
-  
-  /* Logo */
-  .logo i {
-    color: #5b6df8;
-  }
-  
-  /* Headline */
-  h2 {
-    font-weight: 600;
-    color: #333;
-  }
-  
-  /* Input Fields */
-  .form-control {
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    transition: transform 0.3s ease;
+}
+
+.signup-card:hover {
+    transform: translateY(-5px);
+}
+
+.logo {
+    color: #4361ee;
+    animation: logo-bounce 1s ease;
+}
+
+h2 {
+    color: #1a1a2e;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #4361ee;
+    border-radius: 2px;
+}
+
+/* Form Styles */
+.form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 20px;
     transition: all 0.3s ease;
-  }
-  
-  .form-control:focus {
-    border-color: #5b6df8;
-    box-shadow: 0 0 8px rgba(91, 109, 248, 0.4);
-  }
-  
-  /* Button Styling */
-  .btn-gradient {
-    background: linear-gradient(to right, #667eea, #764ba2);
-    border: none;
+}
+
+.form-control:focus {
+    border-color: #4361ee;
+    box-shadow: 0 0 8px rgba(67, 97, 238, 0.2);
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    color: #4a4a4a;
+    font-weight: 500;
+}
+
+/* Button Styles */
+.btn-gradient {
+    background: linear-gradient(45deg, #4361ee, #4895ef);
     color: white;
-    border-radius: 10px;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
     font-weight: 600;
-    transition: background 0.3s ease;
-  }
-  
-  .btn-gradient:hover {
-    background: linear-gradient(to right, #5a67d8, #6b46c1);
-  }
-  
-  /* Error Message */
-  .text-danger {
-    font-size: 0.9rem;
-  }
-  
-  .alert {
-    border-radius: 10px;
-    font-size: 0.9rem;
-  }
-  
-  /* Responsive */
-  @media (max-width: 500px) {
-    .signup-card {
-      padding: 30px 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+/* Additional Features Section */
+.show-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+}
+
+.password-strength {
+    height: 4px;
+    background: #eee;
+    border-radius: 2px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.social-login {
+    margin-top: 1.5rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.social-btn {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes logo-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .signup-container {
+        padding: 1rem;
     }
-  }
+    
+    .signup-card {
+        padding: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
+}
+
+.strength-bar {
+    background-color: 
+        /* Red */     var(--strength-0, #ff4444)
+        /* Orange */  var(--strength-30, #ffbb33)
+        /* Yellow */  var(--strength-65, #ffd700)
+        /* Green */   var(--strength-100, #00C851);
+}
+
+.password-strength[style*="30"] .strength-bar { --strength-30: #ffbb33; }
+.password-strength[style*="65"] .strength-bar { --strength-65: #ffd700; }
+.password-strength[style*="100"] .strength-bar { --strength-100: #00C851; }

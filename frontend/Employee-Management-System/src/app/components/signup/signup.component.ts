@@ -11,11 +11,14 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  name: String = '';
-  email: String = '';
-  role: String = '';
-  username: String = '';
-  password: String = '';
+  name: string = '';
+  email: string = '';
+  role: string = '';
+  username: string = '';
+  password: string = '';
+  showPassword = false;
+  passwordStrength = 0;
+  acceptedTerms = false;
 
   // Additional Fields (the wrapper fields)
   designation: string = '';
@@ -33,6 +36,30 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+    const passwordField = document.getElementById('password') as HTMLInputElement;
+    passwordField.type = this.showPassword ? 'text' : 'password';
+}
+
+getPasswordStrength() {
+    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const mediumRegex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
+    
+    if(strongRegex.test(this.password)) {
+        this.passwordStrength = 100;
+        return 100;
+    } else if(mediumRegex.test(this.password)) {
+        this.passwordStrength = 65;
+        return 65;
+    } else if(this.password.length > 0) {
+        this.passwordStrength = 30;
+        return 30;
+    }
+    return 0;
+}
 
   signup(): void {
   if (this.role === 'MANAGER' || this.role === 'EMPLOYEE') {
@@ -75,6 +102,10 @@ export class SignupComponent implements OnInit {
         });
       }
     }
+
+get today(): string {
+    return new Date().toISOString().split('T')[0];
+}
 
   get showWrapperFields(): boolean
   {

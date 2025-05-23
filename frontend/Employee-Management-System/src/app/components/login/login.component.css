@@ -1,76 +1,175 @@
-/* Full-screen gradient background */
+/* Login Container Styles */
 .login-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4361ee, #3f37c9);
+    padding: 2rem;
 }
 
-/* Card styling */
 .login-card {
-  background: #fff;
-  max-width: 360px;
-  width: 100%;
-  border-radius: 1rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-  animation: fadeInScale 0.6s ease-out;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Icon/logo */
-.logo i {
-  color: #764ba2;
+.login-card:hover {
+    transform: translateY(-5px);
 }
 
-/* Inputs */
+.login-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    pointer-events: none;
+    animation: shine 3s infinite;
+}
+
+.logo {
+    color: #4361ee;
+    animation: logo-bounce 1s ease;
+}
+
+h2 {
+    color: #1a1a2e;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #4361ee;
+    border-radius: 2px;
+}
+
+/* Form Styles */
 .form-control {
-  border-radius: 50px;
-  padding: .75rem 1.25rem;
-  border: 1px solid #ddd;
-  transition: border-color .3s, box-shadow .3s;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 40px 12px 20px;
+    transition: all 0.3s ease;
+    position: relative;
 }
+
 .form-control:focus {
-  border-color: #764ba2;
-  box-shadow: 0 0 0 0.2rem rgba(118,75,162,0.25);
-  outline: none;
+    border-color: #4361ee;
+    box-shadow: 0 0 8px rgba(67, 97, 238, 0.2);
 }
 
-/* Gradient button */
+.form-group {
+    position: relative;
+}
+
+/* Input Icons */
+.form-group::before {
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 2;
+}
+
+#username::before {
+    content: "\f007";
+}
+#password::before {
+    content: "\f023";
+}
+
+/* Password Toggle */
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #666;
+    z-index: 2;
+}
+
+/* Button Styles */
 .btn-gradient {
-  background: linear-gradient(45deg, #764ba2, #667eea);
-  border: none;
-  color: #fff;
-  border-radius: 50px;
-  font-weight: 600;
-  transition: transform .2s, box-shadow .2s;
-}
-.btn-gradient:hover, .btn-gradient:focus {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-}
-
-/* Link */
-.login-card a {
-  color: #764ba2;
-  text-decoration: none;
-  font-weight: 500;
-}
-.login-card a:hover {
-  text-decoration: underline;
+    background: linear-gradient(45deg, #4361ee, #4895ef);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Fade-in + scale animation */
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
 }
 
-/* Responsive tweaks */
+.btn-gradient::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    pointer-events: none;
+    animation: shine 1.5s infinite;
+}
+
+/* Additional Links */
+.text-muted a {
+    color: #4361ee;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.text-muted a:hover {
+    color: #3f37c9;
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes logo-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes shine {
+    0% { left: -50%; }
+    100% { left: 150%; }
+}
+
+/* Responsive Design */
 @media (max-width: 576px) {
-  .login-card {
-    margin: 1rem;
-  }
+    .login-container {
+        padding: 1rem;
+    }
+    
+    .login-card {
+        padding: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.75rem;
+    }
 }
