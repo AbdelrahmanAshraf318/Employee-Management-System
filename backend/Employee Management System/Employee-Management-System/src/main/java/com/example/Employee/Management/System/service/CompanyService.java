@@ -24,8 +24,9 @@ public class CompanyService
 
     public Company createCompany(Company company)
     {
-        if(companyRepo.existsById(company.getId()))
-            throw new IllegalArgumentException("Company you need to add is already exist");
+        if(!companyRepo.existsByCompanyName(company.getCompany_name()).isEmpty())
+            throw new IllegalArgumentException("Company with name = "
+            + company.getCompany_name() + " is already exist");
         return companyRepo.save(company);
     }
 

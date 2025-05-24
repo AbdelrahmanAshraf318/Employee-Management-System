@@ -32,8 +32,10 @@ export class AuthService {
 
   getCompanyIdByName(company_name: string): Observable<{id: number; name: string}>
   {
-    return this.http.get<{id: number; name: string}>(`${this.baseUrl}/api/companies/
-      ${encodeURIComponent(company_name)}/company`);
+    return this.http.get<{id: number; name: string}>(
+      `${this.baseUrl}/api/companies/${encodeURIComponent(company_name)}/company`,
+      { withCredentials: true }
+);
   }
 
 
@@ -55,7 +57,7 @@ export class AuthService {
         if(!userData.comp_id){
             throw new Error('Compamny Name is not exist in the system');
         }
-        url = `${this.baseUrl}/emplpoyee/`;
+        url = `${this.baseUrl}/employee/`;
         break;
 
       default:

@@ -14,6 +14,9 @@ import java.util.UUID;
 @Repository
 public interface CompanyRepo extends JpaRepository<Company, UUID>
 {
-    @Query("SELECT c.id FROM COMPANY c WHERE c.name = :name")
-    Optional<UUID> findCompanyIdByName(@Param("name") String company_name);
+    @Query("SELECT c.id FROM COMPANY c WHERE c.company_name = :company_name")
+    Optional<UUID> findCompanyIdByName(@Param("company_name") String company_name);
+
+    @Query("SELECT c.company_name FROM COMPANY c WHERE c.company_name = :company_name")
+    Optional<Company> existsByCompanyName(@Param("company_name") String company_name);
 }
