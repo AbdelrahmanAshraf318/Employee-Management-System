@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
     ];
 
     this.testimonials = [
-      { name: 'Alice Johnson', position: 'HR Manager at TechCorp', quote: 'EMS Pro transformed our HR processes. Highly recommend!', rating: 5, image: 'alice.jpg' },
+      { name: 'Alice Johnson', position: 'HR Manager at TechCorp', quote: 'EMS transformed our HR processes. Highly recommend!', rating: 5, image: 'alice.jpg' },
       { name: 'Michael Lee', position: 'Operations Lead at BizWorks', quote: 'The analytics dashboard gives us real-time insights.', rating: 4.5, image: 'michael.jpg' },
       { name: 'Sara Williams', position: 'CEO at Startify', quote: 'Seamless integration and top-notch support.', rating: 5, image: 'sara.jpg' }
     ];

@@ -97,6 +97,7 @@ public class ApplicationConfigSecurity
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/hello", "/login").permitAll()
                         .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN", "MANAGER")
+                        .requestMatchers("/api/companies/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->

@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "COMPANY")
 @Setter
 @Getter
 @AllArgsConstructor
