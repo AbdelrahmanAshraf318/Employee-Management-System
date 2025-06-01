@@ -1,7 +1,10 @@
 package com.example.Employee.Management.System.service;
 
 
+import com.example.Employee.Management.System.dtos.EmployeeDTO;
+import com.example.Employee.Management.System.models.Employee;
 import com.example.Employee.Management.System.models.User;
+import com.example.Employee.Management.System.repository.EmployeeRepo;
 import com.example.Employee.Management.System.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -26,13 +26,15 @@ import java.util.UUID;
 public class UserService
 {
     private final UserRepo userRepo;
+    private final EmployeeRepo employeeRepo;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    public UserService(UserRepo userRepo)
+    public UserService(UserRepo userRepo, EmployeeRepo employeeRepo)
     {
         this.userRepo = userRepo;
+        this.employeeRepo = employeeRepo;
     }
 
 

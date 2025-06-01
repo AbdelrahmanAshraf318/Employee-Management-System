@@ -1,16 +1,15 @@
 package com.example.Employee.Management.System.models;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Setter
@@ -27,7 +26,7 @@ public class Employee extends User
     @Column(name = "hired_On")
     private LocalDate hiredOn;
 
-    @Column(name = "days_Employed") // Count automatically in the database
+    @Column(name = "days_Employed", nullable = true) // Count automatically in the database
     private int daysEmployed;
 
 
@@ -38,13 +37,13 @@ public class Employee extends User
     @Column(name = "address")
     private String  address;
 
-    @Column(name = "working_hours", nullable = false)
+    @Column(name = "working_hours", nullable = true)
     private double workingHours;
 
-    @Column(name = "hourly_rate", nullable = false)
+    @Column(name = "hourly_rate", nullable = true)
     private double hourly_rate;
 
-    @Column(name = "salary")
+    @Column(name = "salary", nullable = true)
     private double salary;
 
 
@@ -55,12 +54,15 @@ public class Employee extends User
 
     //@NotNull(message = "Status is mandatory")
     @Enumerated(EnumType.STRING) // Store the enum value as a string in the database
-    @Column(name = "status", nullable = false)
+    @Column(name = "status", nullable = true)
     private EmployeeStatus status;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
     private Company company; // Reference to Company entity
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    private User user;
 
 }

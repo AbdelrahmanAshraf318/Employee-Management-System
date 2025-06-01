@@ -1,5 +1,6 @@
 package com.example.Employee.Management.System.repository;
 
+import com.example.Employee.Management.System.dtos.UserDTO;
 import com.example.Employee.Management.System.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

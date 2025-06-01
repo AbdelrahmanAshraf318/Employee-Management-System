@@ -1,6 +1,8 @@
 package com.example.Employee.Management.System.controller;
 
 
+import com.example.Employee.Management.System.dtos.EmployeeDTO;
+import com.example.Employee.Management.System.dtos.UserDTO;
 import com.example.Employee.Management.System.models.User;
 import com.example.Employee.Management.System.service.UserService;
 import org.springframework.data.util.ReflectionUtils;
@@ -45,8 +47,10 @@ public class UserController
     }
 
     @PostMapping("/register")
-    public User createUser(@RequestBody User user)
+    public ResponseEntity<User> createUser(@RequestBody User user)
     {
-        return userService.registerUser(user);
+        User saveUser = userService.registerUser(user);
+        return ResponseEntity.ok(saveUser);
     }
-}
+
+    }

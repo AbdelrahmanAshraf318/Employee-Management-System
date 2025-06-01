@@ -19,4 +19,6 @@ public interface CompanyRepo extends JpaRepository<Company, UUID>
 
     @Query("SELECT c.company_name FROM COMPANY c WHERE c.company_name = :company_name")
     Optional<Company> existsByCompanyName(@Param("company_name") String company_name);
+
+
 }
