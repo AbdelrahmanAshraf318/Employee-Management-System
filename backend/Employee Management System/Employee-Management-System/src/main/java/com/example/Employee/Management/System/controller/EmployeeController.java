@@ -32,14 +32,16 @@ public class EmployeeController
     }
 
     // Add an employee
-    @PostMapping("/{comp_id}/employees")
+    @PostMapping("/{company_name}/employees")
     public ResponseEntity<Employee> addEmployeeToCompany(@RequestBody Employee employee,
-                                                         @PathVariable UUID comp_id)
+                                                         @PathVariable String company_name)
     {
-        try {
-            Employee saved_employee = employeeService.insertEmployee(employee, comp_id);
+        try
+        {
+            Employee saved_employee = employeeService.insertEmployee(employee, company_name).getBody();
             return ResponseEntity.status(HttpStatus.CREATED).body(saved_employee);
-        }catch (EntityNotFoundException e){
+        }
+        catch (EntityNotFoundException e){
             return ResponseEntity.notFound().build();
         }
     }
@@ -47,10 +49,10 @@ public class EmployeeController
     @PatchMapping("/{comp_id}/employees/{emp_id}")
     public ResponseEntity<?> updateEmployee(@PathVariable UUID comp_id,
                                                    @PathVariable UUID emp_id,
-                                                   @RequestBody EmployeeDTO employeeDTO)
+                                                   @RequestBody Employee employee)
     {
         try {
-            EmployeeDTO updated = employeeService.updateEmployee(employeeDTO,
+            Employee updated = employeeService.updateEmployee(employee,
                     emp_id, comp_id);
             return ResponseEntity.ok(updated);
         }catch (EntityNotFoundException | IllegalArgumentException e){

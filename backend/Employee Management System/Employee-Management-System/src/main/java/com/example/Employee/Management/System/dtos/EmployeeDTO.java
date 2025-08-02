@@ -21,16 +21,12 @@ import java.time.LocalDate;
 @Getter
 public class EmployeeDTO
 {
-    private String name;
+     private String  title;
 
-    private String email;
+     private LocalDate hiredDate;
 
-    private String  address;
+     private String address;
 
     private String phoneNumber;
-
-    private String username;
-
-    private String password;
 
 }

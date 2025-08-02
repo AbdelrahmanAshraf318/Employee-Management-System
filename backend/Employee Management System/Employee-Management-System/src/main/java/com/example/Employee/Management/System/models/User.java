@@ -64,5 +64,7 @@ public class User implements Serializable
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Employee employee;
 
 }

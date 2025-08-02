@@ -1,14 +1,18 @@
 package com.example.Employee.Management.System.service;
 
-import com.example.Employee.Management.System.dtos.EmployeeDTO;
 import com.example.Employee.Management.System.models.Company;
 import com.example.Employee.Management.System.models.Department;
 import com.example.Employee.Management.System.models.Employee;
+import com.example.Employee.Management.System.models.User;
 import com.example.Employee.Management.System.repository.CompanyRepo;
 import com.example.Employee.Management.System.repository.DepartmentRepo;
 import com.example.Employee.Management.System.repository.EmployeeRepo;
+import com.example.Employee.Management.System.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,12 +24,17 @@ public class EmployeeService
     private final EmployeeRepo employeeRepo;
     private final DepartmentRepo departmentRepo;
     private final CompanyRepo companyRepo;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
 
-    public EmployeeService(EmployeeRepo employeeRepo, DepartmentRepo departmentRepo, CompanyRepo companyRepo)
+    public EmployeeService(EmployeeRepo employeeRepo, DepartmentRepo departmentRepo,
+                           CompanyRepo companyRepo, PasswordEncoder passwordEncoder, UserRepo userRepo)
     {
         this.employeeRepo = employeeRepo;
         this.departmentRepo = departmentRepo;
         this.companyRepo = companyRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepo = userRepo;
     }
 
     // Get All Employee
@@ -55,61 +64,105 @@ public class EmployeeService
     }
 
     // Add an Employee
-    public Employee insertEmployee(Employee employee, UUID comp_id)
+    @Transactional
+    public ResponseEntity<Employee> insertEmployee(Employee employee, String company_name)
     {
-        Company company = companyRepo.findById(comp_id)
+        Company company = companyRepo.existsByCompanyName(company_name)
                 .orElseThrow(() -> new EntityNotFoundException("Company Not Found"));
 
         employee.setCompany(company);
 
-        return employeeRepo.save(employee);
+        User user = userRepo.findById(employee.getId())
+                .orElseThrow( () -> new EntityNotFoundException("User not found") );
+
+        Department dept = departmentRepo.findByDepartmentName(employee.getDepartment().getDept_name())
+                .orElseThrow( () -> new EntityNotFoundException("Department Not Found"));
+
+        // Verify that the department belongs to the same company
+        if (!dept.getCompany().getCompany_name().equals(company_name))
+        {
+            throw new IllegalArgumentException("Department belongs to different company");
+        }
+
+        Employee newEmployee = new Employee();
+        newEmployee.setDesignation(employee.getDesignation());
+        newEmployee.setHiredOn(employee.getHiredOn());
+        newEmployee.setDepartment(dept);
+        newEmployee.setAddress(employee.getAddress());
+        newEmployee.setPhoneNumber(employee.getPhoneNumber());
+        newEmployee.setCompany(company);
+
+        return ResponseEntity.ok(employeeRepo.save(employee));
 
     }
 
     // Update an Employee
-    public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO, UUID emp_id, UUID comp_id)
+    @Transactional
+    public Employee updateEmployee(Employee employee, UUID emp_id, UUID comp_id)
     {
-        Company company = companyRepo.findById(comp_id)
+        // 1. Validate input
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee update data cannot be null");
+        }
+
+        // 2. Check ID consistency
+        if (employee.getId() != null && !employee.getId().equals(emp_id))
+        {
+            throw new IllegalArgumentException("Employee ID in body doesn't match path ID");
+        }
+
+        // 3. Verify company exists
+        companyRepo.findById(comp_id)
                 .orElseThrow(() -> new EntityNotFoundException("Company Not Found"));
 
-        Employee exist_employee = employeeRepo.findById(emp_id)
+        // 4. Fetch existing employee
+        Employee existing = employeeRepo.findById(emp_id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee Not Found"));
 
-        // Ensure that employee's department belongs to the same company
-        if(!exist_employee.getDepartment().getCompany().getId().equals(comp_id))
+        // 5. Validate and update department (if provided)
+        if (employee.getDepartment() != null)
         {
-            throw new IllegalArgumentException("Employee's department does not belong to the same company the employee belongs to");
-        }
+            Department newDept = departmentRepo.findById(employee.getDepartment().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Department not found"));
 
-        // Ensure that the updated department in the updated_employee belongs to the company
-        if(employeeDTO != null)
-        {
-            Department department = departmentRepo.findById(exist_employee.getDepartment().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Department not found with ID: " +
-                            exist_employee.getDepartment().getId()));
-
-            if(!department.getCompany().getId().equals(comp_id))
+            if (!newDept.getCompany().getId().equals(comp_id))
             {
-                throw new IllegalArgumentException("The new department does not belong to the specified company");
+                throw new IllegalArgumentException("Department belongs to different company");
             }
+            existing.setDepartment(newDept);
         }
-        exist_employee.setName(employeeDTO.getName());
-        exist_employee.setAddress(employeeDTO.getAddress());
-        exist_employee.setPhoneNumber(employeeDTO.getPhoneNumber());
-        exist_employee.setEmail(employeeDTO.getEmail());
-        exist_employee.setPassword(employeeDTO.getPassword());
-        exist_employee.setUsername(employeeDTO.getUsername());
 
-        Employee employee = employeeRepo.save(exist_employee);
+        // 6. Patch allowed fields (only update non-null values)
+        if (employee.getAddress() != null)
+        {
+            existing.setAddress(employee.getAddress());
+        }
+        if (employee.getPhoneNumber() != null)
+        {
+            existing.setPhoneNumber(employee.getPhoneNumber());
+        }
+        if (employee.getEmail() != null)
+        {
+            existing.setEmail(employee.getEmail());
+        }
 
-        return new EmployeeDTO(
-                employee.getName(),
-                employeeDTO.getEmail(),
-                employeeDTO.getAddress(),
-                employeeDTO.getPhoneNumber(),
-                employeeDTO.getUsername(),
-                employeeDTO.getPassword()
-        );
+        // 7. Special handling for password (hash if provided)
+        if (employee.getPassword() != null)
+        {
+            existing.setPassword(passwordEncoder.encode(employee.getPassword()));
+        }
+
+        // 8. Block updates to immutable fields
+        if (employee.getHiredOn() != null)
+        {
+            throw new IllegalArgumentException("hiredOn field is immutable");
+        }
+        if (employee.getUsername() != null)
+        {
+            throw new IllegalArgumentException("username field is immutable");
+        }
+
+        return employeeRepo.save(existing);
     }
 
     // Delete an Employee

@@ -1,205 +1,122 @@
 <div class="signup-container d-flex align-items-center justify-content-center">
-    <div class="signup-card text-center p-4">
-        <div class="logo mb-3">
-            <i class="fas fa-user-circle fa-4x"></i>
-        </div>
-        <h2 class="mb-4">Register</h2>
-
-        <form (ngSubmit)="signup()" class="w-100">
-            <!-- Personal Information -->
-            <div class="form-group mb-3">
-                <input 
-                    id="name"
-                    type="text"
-                    [(ngModel)]="name"
-                    name="name"
-                    required
-                    class="form-control"
-                    placeholder="Full Name"
-                />
-            </div>
-
-            <div class="form-group mb-3">
-                <input 
-                    id="email"
-                    type="email"
-                    [(ngModel)]="email"
-                    name="email"
-                    required
-                    class="form-control"
-                    placeholder="Email Address"
-                    #emailField="ngModel"
-                />
-                <div *ngIf="emailField.invalid && (emailField.dirty || emailField.touched)" class="text-danger">
-                    <div *ngIf="emailField.errors?.['required']">Email is required</div>
-                    <div *ngIf="emailField.errors?.['email']">Please enter a valid email</div>
-                </div>
-            </div>
-
-            <!-- Account Credentials -->
-            <div class="form-group mb-3">
-                <input 
-                    id="username"
-                    type="text"
-                    [(ngModel)]="username"
-                    name="username"
-                    required
-                    class="form-control"
-                    placeholder="Username"
-                />
-            </div>
-
-            <div class="form-group mb-3">
-                <input 
-                    id="password"
-                    [type]="showPassword ? 'text' : 'password'"
-                    [(ngModel)]="password"
-                    name="password"
-                    required
-                    class="form-control"
-                    placeholder="Password"
-                    (input)="getPasswordStrength()"
-                />
-                <span class="show-password" (click)="togglePasswordVisibility()">
-                    <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
-                </span>
-                <div class="password-strength">
-                    <div class="strength-bar" [style.width]="passwordStrength + '%'"></div>
-                </div>
-            </div>
-
-            <!-- Role Selection -->
-            <div class="form-group mb-3">
-                <label for="role" class="form-label mb-2">
-                    <i class="fas fa-user-tag me-2"></i>Select Your Role
-                </label>
-                <select
-                    id="role"
-                    [(ngModel)]="role"
-                    name="role"
-                    required
-                    class="form-control"
-                    title="Select your role from the dropdown"
-                >
-                    <option value="" disabled selected>Choose a role...</option>
-                    <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
-                </select>
-            </div>
-
-            <!-- Employment Details (Conditional) -->
-            <ng-container *ngIf="showWrapperFields">
-                <h4 class="mb-3 border-bottom pb-2">Employment Details</h4>
-
-                <div class="form-group mb-3">
-                    <input 
-                        id="designation"
-                        type="text"
-                        [(ngModel)]="designation"
-                        name="designation"
-                        required
-                        class="form-control"
-                        placeholder="Job Title/Position"
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="hiredOn">Hire Date</label>
-                    <input 
-                        id="hiredOn"
-                        type="date"
-                        [(ngModel)]="hiredOn"
-                        name="hiredOn"
-                        required
-                        class="form-control"
-                        [max]="today"
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <input 
-                        id="address"
-                        type="text"
-                        [(ngModel)]="address"
-                        name="address"
-                        required
-                        class="form-control"
-                        placeholder="Residential Address"
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <input 
-                        id="phoneNumber"
-                        type="tel"
-                        [(ngModel)]="phoneNumber"
-                        name="phoneNumber"
-                        required
-                        class="form-control"
-                        placeholder="Phone Number"
-                        pattern="[0-9]{10}"
-                    />
-                    <small class="text-muted">Format: 1234567890</small>
-                </div>
-
-                <div class="form-group mb-3">
-                    <input 
-                        id="dept_name"
-                        type="text"
-                        [(ngModel)]="dept_name"
-                        name="dept_name"
-                        required
-                        class="form-control"
-                        placeholder="Department Name"
-                    />
-                </div>
-
-                <div class="form-group mb-3">
-                    <input 
-                        id="company_name"
-                        type="text"
-                        [(ngModel)]="company_name"
-                        name="company_name"
-                        required
-                        class="form-control"
-                        placeholder="Company Name"
-                    />
-                </div>
-            </ng-container>
-
-            <!-- Terms Agreement -->
-            <div class="form-check mt-4 mb-3">
-                <input 
-                    class="form-check-input" 
-                    type="checkbox" 
-                    id="terms" 
-                    required
-                    [(ngModel)]="acceptedTerms"
-                    name="terms"
-                >
-                <label class="form-check-label" for="terms">
-                    I agree to the <a href="#" class="text-primary">Terms of Service</a> and 
-                    <a href="#" class="text-primary">Privacy Policy</a>
-                </label>
-            </div>
-
-            <!-- Error Messages -->
-            <div *ngIf="errorMessage" class="alert alert-danger mb-3">
-                {{ errorMessage }}
-            </div>
-
-            <!-- Submit Button -->
-            <button 
-                type="submit" 
-                class="btn btn-gradient w-100 py-2"
-                [disabled]="!acceptedTerms || passwordStrength < 30"
-            >
-                <i class="fas fa-user-check me-2"></i>Create Account
-            </button>
-        </form>
-
-        <p class="mt-4 mb-0 text-muted">
-            Already have an account?
-            <a routerLink="/login" class="text-primary fw-semibold">Sign In Here</a>
-        </p>
+  <div class="signup-card text-center p-4">
+    <div class="logo mb-3">
+      <i class="fas fa-user-circle fa-4x"></i>
     </div>
+    <h2 class="mb-4">Register</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+      <!-- Personal Info -->
+      <div class="form-group mb-3">
+        <input id="name" type="text" formControlName="name" class="form-control" placeholder="Full Name" />
+      </div>
+
+      <div class="form-group mb-3">
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+          placeholder="Email Address"
+        />
+      </div>
+
+      <div class="form-group mb-3">
+        <input id="username" type="text" formControlName="username" class="form-control" placeholder="Username" />
+      </div>
+
+      <div class="form-group mb-3 position-relative">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          formControlName="password"
+          class="form-control"
+          placeholder="Password"
+          (input)="getPasswordStrength()"
+        />
+        <span class="show-password position-absolute end-0 top-50 translate-middle-y me-3" (click)="togglePasswordVisibility()">
+          <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+        </span>
+        <div class="password-strength mt-1">
+          <div class="strength-bar bg-success" [style.width]="passwordStrength + '%'" style="height: 5px;"></div>
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="role">Select Your Role</label>
+        <select id="role" formControlName="role" class="form-control">
+          <option value="" disabled>Select a role...</option>
+          <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <!-- Employment Details (Conditional) -->
+      <ng-container *ngIf="showWrapperFields">
+        <h4 class="mb-3 border-bottom pb-2">Employment Details</h4>
+
+        <div class="form-group mb-3">
+          <input id="designation" type="text" formControlName="designation" class="form-control" placeholder="Job Title" />
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="hiredOn">Hire Date</label>
+          <input id="hiredOn" type="date" formControlName="hiredOn" class="form-control" [max]="today" />
+        </div>
+
+        <div class="form-group mb-3">
+          <input id="address" type="text" formControlName="address" class="form-control" placeholder="Address" />
+        </div>
+
+        <div class="form-group mb-3">
+          <input
+            id="phoneNumber"
+            type="tel"
+            formControlName="phoneNumber"
+            class="form-control"
+            placeholder="Phone Number"
+            pattern="[0-9]{10}"
+          />
+          <small class="text-muted">Format: 1234567890</small>
+        </div>
+
+        <div class="form-group mb-3">
+          <input id="dept_name" type="text" formControlName="dept_name" class="form-control" placeholder="Department" />
+        </div>
+
+        <div class="form-group mb-3">
+          <input id="company_name" type="text" formControlName="company_name" class="form-control" placeholder="Company Name" />
+        </div>
+      </ng-container>
+
+      <div class="form-check mt-4 mb-3">
+        <div class="form-check mt-4 mb-3">
+          <input 
+            class="form-check-input" 
+            type="checkbox" 
+            id="terms" 
+            required
+            formControlName="terms"
+          />
+          <label class="form-check-label" for="terms">
+            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+          </label>
+          <div *ngIf="form.get('terms')?.invalid && form.get('terms')?.touched" 
+              class="invalid-feedback d-block text-start">
+            You must accept the terms
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mb-3">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn btn-gradient w-100 py-2" 
+        [disabled]="form.invalid || passwordStrength < 30">
+        <i class="fas fa-user-check me-2"></i>Create Account
+      </button>
+    </form>
+
+    <p class="mt-4 mb-0 text-muted">
+      Already have an account? <a routerLink="/login" class="text-primary">Sign In Here</a>
+    </p>
+  </div>
 </div>

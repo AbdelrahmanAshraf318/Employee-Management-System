@@ -2,17 +2,34 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { error } from 'console';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private apiUrl = 'http://localhost:8080/user';
 
   private baseUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
+
+  checkEmailAvailability(email: string): Observable<boolean> {
+    return this.http.get<{ available: boolean }>(
+      `${this.apiUrl}/check-email?email=${encodeURIComponent(email)}`
+    ).pipe(
+      map(response => response.available)
+    );
+  }
+
+  checkUsernameAvailability(username: string): Observable<boolean> {
+    return this.http.get<{ available: boolean }>(
+      `${this.apiUrl}/check-username?username=${encodeURIComponent(username)}`
+    ).pipe(
+      map(response => response.available)
+    );
+  }
 
   login(username: string, password: string): Observable<{ role: string }> {
     const body = new HttpParams()

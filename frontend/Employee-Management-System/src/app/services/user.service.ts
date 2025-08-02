@@ -13,6 +13,10 @@ export class UserService
 
   constructor(private httpClient: HttpClient) { }
 
+  createUser(user: User): Observable<User> {
+    return this.httpClient.post<User>(`${this.baseUrl}/register`, user);
+  }
+
   getUserList(): Observable<User[]> {
     return this.httpClient.get<User[]>(`${this.baseUrl}/user`, { withCredentials: true });
   }
