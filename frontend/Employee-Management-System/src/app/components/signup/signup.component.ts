@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, EmailValidator, FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, EmailValidator, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of, timer } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -13,33 +13,10 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  showPassword = false;
-  passwordStrength = 0;
-  acceptedTerms = false;
-  errorMessage: string = '';
-  roles: string[] = ['ADMIN', 'MANAGER', 'EMPLOYEE']; 
-
-  form = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', 
-      [Validators.required, Validators.email], 
-      [this.emailAvailabilityValidator()]
-    ],
-    role: ['', Validators.required],
-    username: ['', 
-      Validators.required, 
-      [this.usernameAvailabilityValidator()]
-    ],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-    terms: [false, { validators: Validators.requiredTrue, nonNullable: true }],
-    
-    designation: [''],
-    hiredOn: [''],
-    address: [''],
-    phoneNumber: [''],
-    dept_name: [''],
-    company_name: ['']
-  });
+  
+  form!: FormGroup; // ✅ added
+  showPassword: boolean = false; // ✅ added
+  passwordStrength: number = 0; // ✅ added
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +25,16 @@ export class SignupComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+     this.form = this.fb.group({
+      fullName: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email], [this.emailAvailabilityValidator()]],
+      username: ['', [Validators.required, Validators.minLength(3)], [this.usernameAvailabilityValidator()]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      role: ['', Validators.required]
+    });
+  }
 
     
   emailAvailabilityValidator(): AsyncValidatorFn {
@@ -83,60 +69,23 @@ export class SignupComponent implements OnInit {
   }
 
 
-  onSubmit() {
-  const form = this.form.value;
-  
-  // Validate company_name exists for relevant roles
-  if ((form.role === 'MANAGER' || form.role === 'EMPLOYEE') && !form.company_name) {
-    alert('Company name is required for employees/managers');
-    return;
-  }
+  register()
+  {
 
-  // User registration payload (always sent)
-  const userPayload = {
-    name: form.name,
-    email: form.email,
-    username: form.username,
-    password: form.password,
-    role: form.role
-  };
+    if(this.form.invalid) return;
 
-  // Register user first
-  this.http.post('http://localhost:8080/user/register', userPayload).pipe(
-    // Only proceed to employee details if role requires it
-    switchMap(() => {
-      if (form.role === 'MANAGER' || form.role === 'EMPLOYEE') {
-        const detailsPayload = {
-          designation: form.designation,
-          hiredOn: form.hiredOn,
-          address: form.address,
-          phoneNumber: form.phoneNumber,
-          dept_name: form.dept_name,  
-          company_name: form.company_name
-        };
-        return this.http.post(
-          `http://localhost:8080/${form.company_name}/employees`, 
-          detailsPayload
-        );
+    const registerData = this.form.value;
+
+    this.authService.register(registerData).subscribe({
+      next : (res) => {
+        this.authService.saveToken(res.token);
+        this.router.navigate(['/user']);
+      },
+      error: (err) => {
+        console.log(err);
       }
-      // Return empty observable for non-employee roles
-      return of(null);
     })
-  ).subscribe({
-    next: () => {
-      const roleMessage = (form.role === 'MANAGER' || form.role === 'EMPLOYEE') 
-        ? `${form.role} data saved successfully!` 
-        : 'User registered successfully!';
-      alert(roleMessage);
-    },
-    error: (err) => {
-      const errorContext = (err.url.includes('/employees')) 
-        ? 'saving employee details' 
-        : 'registering user';
-      alert(`Error ${errorContext}: ${err.error?.message || err.message}`);
-    }
-  });
-}
+  }
   
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;

@@ -31,21 +31,30 @@ export class AuthService {
     );
   }
 
-  login(username: string, password: string): Observable<{ role: string }> {
-    const body = new HttpParams()
-      .set('username', username)
-      .set('password', password);
-  
-    return this.http.post<{ role: string }>(
-      `${this.baseUrl}/login`,
-      body.toString(),
-      {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        withCredentials: true
-      }
-    );
+  login(userData: any): Observable<any> 
+  {
+    return this.http.post(`${this.apiUrl}/login`, userData);
   }
 
+  saveToken(token : string): void
+  {
+    localStorage.setItem('token', token);
+  }
+
+  getToken() : string | null
+  {
+    return localStorage.getItem('token');
+  }
+
+  isLoggedIn() : boolean
+  {
+    return this.getToken() != null;
+  }
+
+  logout() : void
+  {
+    localStorage.removeItem('token');
+  }
 
   getCompanyIdByName(company_name: string): Observable<{id: number; name: string}>
   {
@@ -58,30 +67,7 @@ export class AuthService {
 
   register(userData: any): Observable<any> 
   {
-    let url: string;
-    switch(userData.role){
-      case 'ADMIN':
-        url = `${this.baseUrl}/user/register`;
-        break;
-      case 'MANAGER':
-        if(!userData.comp_id){
-          throw new Error('Compamny Name is not exist in the system');
-        }
-        url = `${this.baseUrl}/manager/`;
-        break;
-
-      case 'EMPLOYEE':
-        if(!userData.comp_id){
-            throw new Error('Compamny Name is not exist in the system');
-        }
-        url = `${this.baseUrl}/employee/`;
-        break;
-
-      default:
-        throw new Error(`Unsupported role: ${userData.role}`);
-
-    }
-    return this.http.post(url, userData, {withCredentials: false});
+    return this.http.post(`${this.apiUrl}/register`, userData); 
   }
 
 
