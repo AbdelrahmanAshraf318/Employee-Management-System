@@ -10,10 +10,14 @@ import { Route, Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
-  password: string = '';
+  
   errorMsg: string = '';
   showPassword = false;
+
+  loginData = {
+    username: '',
+    password: ''
+  }
 
   constructor(private authService: AuthService, 
     private router: Router, private http: HttpClient
@@ -28,20 +32,17 @@ export class LoginComponent implements OnInit {
     passwordField.type = this.showPassword ? 'text' : 'password';
 }
 
-  login(): void {
-    this.authService.login(this.username, this.password).subscribe({
-      next: resp => {
-        // Choose route based on resp.role (or always /user)
-        if (resp.role === 'ROLE_ADMIN') {
-          this.router.navigate(['/user']);
-        } else if (resp.role === 'ROLE_MANAGER') {
-          this.router.navigate(['/manager']);
-        } else {
-          this.router.navigate(['/user']);
-        }
+  login(): void
+  {
+    this.authService.login(this.loginData).subscribe({
+      next: (res) => {
+        this.authService.saveToken(res.token);
+        this.router.navigate(['/user']);
       },
-      error: err => this.errorMsg = 'Login failed: ' + err.statusText
-    });
+      error: (err) => {
+        console.log(err);
+      }
+    }) 
   }
 
 }
