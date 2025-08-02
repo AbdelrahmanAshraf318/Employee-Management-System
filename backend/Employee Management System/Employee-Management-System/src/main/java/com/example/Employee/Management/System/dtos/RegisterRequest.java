@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class UserDTO
+public class RegisterRequest
 {
     private String fullName;
     private String email;

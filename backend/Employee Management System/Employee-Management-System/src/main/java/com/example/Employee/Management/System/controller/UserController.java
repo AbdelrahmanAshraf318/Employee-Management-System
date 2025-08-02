@@ -1,18 +1,17 @@
 package com.example.Employee.Management.System.controller;
 
 
-import com.example.Employee.Management.System.dtos.EmployeeDTO;
-import com.example.Employee.Management.System.dtos.UserDTO;
+import com.example.Employee.Management.System.dtos.RegisterRequest;
 import com.example.Employee.Management.System.models.User;
 import com.example.Employee.Management.System.service.UserService;
-import org.springframework.data.util.ReflectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -22,6 +21,7 @@ import java.util.UUID;
 public class UserController
 {
     private final UserService userService;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(UserService userService)
     {
@@ -47,10 +47,12 @@ public class UserController
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody User user)
+    public ResponseEntity<?> createUser(@RequestBody RegisterRequest request)
     {
-        User saveUser = userService.registerUser(user);
-        return ResponseEntity.ok(saveUser);
+        String token = userService.registerUser(request);
+        logger.info("JWT token generated successfully for user: {}", request.getUsername());
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 
-    }
+
+}

@@ -1,14 +1,10 @@
 package com.example.Employee.Management.System.repository;
 
-import com.example.Employee.Management.System.dtos.UserDTO;
 import com.example.Employee.Management.System.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
