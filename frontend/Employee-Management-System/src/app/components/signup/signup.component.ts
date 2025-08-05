@@ -17,6 +17,12 @@ export class SignupComponent implements OnInit {
   form!: FormGroup; // ✅ added
   showPassword: boolean = false; // ✅ added
   passwordStrength: number = 0; // ✅ added
+  errorMessage: string = "";
+  roles: string[] = [
+    "MANAGER",
+    "EMPLOYEE",
+    "ADMIN"
+  ] 
 
   constructor(
     private fb: FormBuilder,

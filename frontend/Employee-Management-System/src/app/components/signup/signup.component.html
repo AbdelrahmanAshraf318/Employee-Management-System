@@ -5,7 +5,7 @@
     </div>
     <h2 class="mb-4">Register</h2>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="w-100">
+    <form [formGroup]="form" (ngSubmit)="register()" class="w-100">
       <!-- Personal Info -->
       <div class="form-group mb-3">
         <input id="name" type="text" formControlName="name" class="form-control" placeholder="Full Name" />
